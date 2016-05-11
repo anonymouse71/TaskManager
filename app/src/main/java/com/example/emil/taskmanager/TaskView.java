@@ -7,6 +7,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -26,7 +29,7 @@ public class TaskView extends AppCompatActivity {
         ListView list = (ListView) findViewById(R.id.listView);
 
 
-        final List<IListFragment> fragments = new ArrayList<>();
+        List<IListFragment> fragments = new ArrayList<>();
         fragments.add(new TaskFragment());
         fragments.add(new SeperatorFragment());
 
@@ -38,8 +41,10 @@ public class TaskView extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragments.add(new TaskFragment());
+                IListFragment fragment = new TaskFragment();
+                adapter.add(fragment);
                 adapter.notifyDataSetChanged();
+
             }
         });
     }
