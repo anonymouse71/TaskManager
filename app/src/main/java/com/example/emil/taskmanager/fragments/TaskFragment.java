@@ -1,35 +1,43 @@
-package com.example.emil.taskmanager;
+package com.example.emil.taskmanager.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.example.emil.taskmanager.FragmentType;
+import com.example.emil.taskmanager.R;
+import com.example.emil.taskmanager.activities.CreateTaskActivity;
+import com.example.emil.taskmanager.activities.TaskViewActivity;
+import com.example.emil.taskmanager.entities.Task;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SeperatorFragment.OnFragmentInteractionListener} interface
+ * {@link TaskFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SeperatorFragment#newInstance} factory method to
+ * Use the {@link TaskFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SeperatorFragment extends Fragment implements IListFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class TaskFragment extends Fragment implements IListFragment, View.OnClickListener {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private final FragmentType FRAGMENT_TYPE = FragmentType.Task;
+
+    private static final String TITLE = "param1";
+    private static final String DESCRIPTION = "param2";
+
+    private Task task = new Task();
 
     private OnFragmentInteractionListener mListener;
 
-    public SeperatorFragment() {
+    public TaskFragment() {
         // Required empty public constructor
     }
 
@@ -37,16 +45,16 @@ public class SeperatorFragment extends Fragment implements IListFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SeperatorFragment.
+     * @param title Parameter 1.
+     * @param description Parameter 2.
+     * @return A new instance of fragment TaskFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SeperatorFragment newInstance(String param1, String param2) {
-        SeperatorFragment fragment = new SeperatorFragment();
+    public static TaskFragment newInstance(String title, String description) {
+        TaskFragment fragment = new TaskFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(TITLE, title);
+        args.putString(DESCRIPTION, description);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,16 +63,50 @@ public class SeperatorFragment extends Fragment implements IListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            task.setTitle(getArguments().getString(TITLE));
+            task.setDescription(getArguments().getString(DESCRIPTION));
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+       View view = inflater.inflate(R.layout.fragment_task, container, false);
+
+        TextView titleText = (TextView) view.findViewById(R.id.Task_Title);
+        titleText.setText(task.getTitle());
+
+        Button btn = (Button) view.findViewById(R.id.EditTaskBtn);
+
+        btn.setOnClickListener(this);
+
+        view.setTag(FRAGMENT_TYPE);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_seperator, container, false);
+        return view;
+    }
+
+    private View.OnClickListener editPressed(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        };
+    }
+
+    @Override
+    public  void onClick(View v){
+        Intent intent = new Intent(getContext(), CreateTaskActivity.class);
+        intent.putExtra("Task",task);
+        startActivity(intent);
+    }
+
+    public void UpdateData(View view){
+
+        TextView titleText = (TextView) view.findViewById(R.id.Task_Title);
+        titleText.setText(task.getTitle());
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,9 +134,10 @@ public class SeperatorFragment extends Fragment implements IListFragment {
     }
 
     @Override
-    public int getLayoutId() {
-        return R.layout.fragment_seperator;
+    public FragmentType getFragmentType() {
+        return FRAGMENT_TYPE;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

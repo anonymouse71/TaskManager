@@ -9,8 +9,9 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.example.emil.taskmanager.fragments.IListFragment;
+import com.example.emil.taskmanager.fragments.TaskFragment;
 
 import java.util.List;
 
@@ -19,45 +20,64 @@ import java.util.List;
  */
 public class TaskListAdapter extends ArrayAdapter<IListFragment> {
 
-    private  List<IListFragment> fragments;
+    private List<IListFragment> fragments;
+    private  Context context;
 
     public TaskListAdapter(Context context, int resource, List<IListFragment> objects) {
         super(context, resource, objects);
         fragments = objects;
+        this.context = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        
-
-        //If no reusable fragment is available
-        if (convertView == null)
-        {
-            View rowView = null;
-
-            switch (fragments.get(position).getLayoutId()){
-                case R.layout.fragment_task:
-                    rowView = inflater.inflate(R.layout.fragment_task, parent, false);
-                    break;
-                case R.layout.fragment_seperator:
-                    rowView = inflater.inflate(R.layout.fragment_seperator, parent, false);
-                    break;
-            }
-
-            //TextView textView = (TextView) rowView.findViewById(R.id.Task_Title);
-            Animation fadeIn = new AlphaAnimation(0, 1);
-            fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
-            fadeIn.setDuration(1000);
-
-            rowView.setAnimation(fadeIn);
-
-            return rowView;
+        //Reuse View if possible
+        if (convertView != null && canConvertView(position, convertView)) {
+            return convertView;
         }
 
-        return  convertView;
+        //Create new Fragment
+        Fragment fragment = (Fragment) fragments.get(position);
+
+        fragment.onCreate(null);
+        View fragmentView = fragment.onCreateView(inflater, parent, null);
+
+        Animation fadeIn = new AlphaAnimation(0, 1);
+        fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
+        fadeIn.setDuration(1000);
+
+        fragmentView.setAnimation(fadeIn);
+
+        return fragmentView;
     }
 
+    /**
+     * Returns true if View can be reused, false otherwise
+     * @param position
+     * @param convertView
+     * @return
+     */
+    private boolean canConvertView(int position, View convertView) {
+        //Determine View type
+        FragmentType type = (FragmentType) convertView.getTag();
+        IListFragment iListFragment = fragments.get(position);
+
+        //If old View and new View is same type
+        if (iListFragment.getFragmentType() == type) {
+            switch (type) {
+                case Task:
+                    TaskFragment taskFragment = (TaskFragment) iListFragment;
+                    taskFragment.onCreate(null);
+                    taskFragment.UpdateData(convertView);
+                    return true;
+                case Seperator:
+                    return true;
+            }
+        }
+        return false;
+    }
 
 }
+

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    tools:context="com.example.emil.taskmanager.TaskFragment">
+    tools:context=".fragments.TaskFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -32,5 +32,15 @@
         android:id="@+id/switch1"
         android:layout_gravity="right|center_vertical"
         android:layout_marginRight="10dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:id="@+id/EditTaskBtn"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="60dp"
+        android:onClick="EditTaskBtn" />
 
 </FrameLayout>

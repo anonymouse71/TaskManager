@@ -1,4 +1,4 @@
-package com.example.emil.taskmanager;
+package com.example.emil.taskmanager.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,16 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.emil.taskmanager.FragmentType;
+import com.example.emil.taskmanager.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TaskFragment.OnFragmentInteractionListener} interface
+ * {@link SeperatorFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TaskFragment#newInstance} factory method to
+ * Use the {@link SeperatorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TaskFragment extends Fragment implements IListFragment {
+public class SeperatorFragment extends Fragment implements IListFragment {
+    private final FragmentType FRAGMENT_TYPE = FragmentType.Seperator;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +34,7 @@ public class TaskFragment extends Fragment implements IListFragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public TaskFragment() {
+    public SeperatorFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +44,11 @@ public class TaskFragment extends Fragment implements IListFragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TaskFragment.
+     * @return A new instance of fragment SeperatorFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TaskFragment newInstance(String param1, String param2) {
-        TaskFragment fragment = new TaskFragment();
+    public static SeperatorFragment newInstance(String param1, String param2) {
+        SeperatorFragment fragment = new SeperatorFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -63,8 +68,13 @@ public class TaskFragment extends Fragment implements IListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_seperator, container, false);
+
+        view.setTag(FRAGMENT_TYPE);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_task, container, false);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,9 +102,10 @@ public class TaskFragment extends Fragment implements IListFragment {
     }
 
     @Override
-    public int getLayoutId() {
-        return R.layout.fragment_task;
+    public FragmentType getFragmentType() {
+        return FRAGMENT_TYPE;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this
