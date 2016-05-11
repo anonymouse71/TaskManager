@@ -3,11 +3,10 @@ package com.example.emil.taskmanager.entities;
 import java.io.Serializable;
 
 /**
- * Created by Administrator on 5/11/2016.
+ * Created by Nikolaj on 5/11/2016.
  */
 public class Task implements Serializable {
     private String title;
-
     private String description;
 
     public Task(String title, String description) {
