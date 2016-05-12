@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.emil.taskmanager.FragmentType;
 import com.example.emil.taskmanager.R;
+import com.example.emil.taskmanager.activities.ITaskView;
 
 
 /**
@@ -32,7 +33,7 @@ public class SeperatorFragment extends Fragment implements IListFragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private ITaskView mListener;
 
     public SeperatorFragment() {
         // Required empty public constructor
@@ -80,15 +81,15 @@ public class SeperatorFragment extends Fragment implements IListFragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.EditTask(null,0);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof ITaskView) {
+            mListener = (ITaskView) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -104,6 +105,16 @@ public class SeperatorFragment extends Fragment implements IListFragment {
     @Override
     public FragmentType getFragmentType() {
         return FRAGMENT_TYPE;
+    }
+
+    @Override
+    public int getPosition() {
+        return 0;
+    }
+
+    @Override
+    public void setPosition(int position) {
+
     }
 
 

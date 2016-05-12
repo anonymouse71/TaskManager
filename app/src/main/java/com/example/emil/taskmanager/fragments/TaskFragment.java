@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.emil.taskmanager.FragmentType;
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.activities.CreateTaskActivity;
+import com.example.emil.taskmanager.activities.ITaskView;
 import com.example.emil.taskmanager.activities.TaskViewActivity;
 import com.example.emil.taskmanager.entities.Task;
 
@@ -26,16 +27,34 @@ import com.example.emil.taskmanager.entities.Task;
  * Use the {@link TaskFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TaskFragment extends Fragment implements IListFragment, View.OnClickListener {
+public class TaskFragment extends Fragment implements IListFragment {
 
     private final FragmentType FRAGMENT_TYPE = FragmentType.Task;
 
     private static final String TITLE = "param1";
     private static final String DESCRIPTION = "param2";
 
-    private Task task = new Task();
+    private Task task;
 
-    private OnFragmentInteractionListener mListener;
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    private int position;
+
+    private ITaskView mListener;
 
     public TaskFragment() {
         // Required empty public constructor
@@ -62,7 +81,8 @@ public class TaskFragment extends Fragment implements IListFragment, View.OnClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        if (getArguments() != null && task == null) {
+            task = new Task();
             task.setTitle(getArguments().getString(TITLE));
             task.setDescription(getArguments().getString(DESCRIPTION));
         }
@@ -80,7 +100,7 @@ public class TaskFragment extends Fragment implements IListFragment, View.OnClic
 
         Button btn = (Button) view.findViewById(R.id.EditTaskBtn);
 
-        btn.setOnClickListener(this);
+        btn.setOnClickListener(editPressed());
 
         view.setTag(FRAGMENT_TYPE);
         // Inflate the layout for this fragment
@@ -91,16 +111,9 @@ public class TaskFragment extends Fragment implements IListFragment, View.OnClic
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mListener.EditTask(task,position);
             }
         };
-    }
-
-    @Override
-    public  void onClick(View v){
-        Intent intent = new Intent(getContext(), CreateTaskActivity.class);
-        intent.putExtra("Task",task);
-        startActivity(intent);
     }
 
     public void UpdateData(View view){
@@ -110,17 +123,17 @@ public class TaskFragment extends Fragment implements IListFragment, View.OnClic
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+/*    public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
-    }
+    }*/
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof ITaskView) {
+            mListener = (ITaskView) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");

@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ArrayAdapter;
 
+import com.example.emil.taskmanager.activities.ITaskView;
 import com.example.emil.taskmanager.fragments.IListFragment;
 import com.example.emil.taskmanager.fragments.TaskFragment;
 
@@ -22,6 +23,7 @@ public class TaskListAdapter extends ArrayAdapter<IListFragment> {
 
     private List<IListFragment> fragments;
     private  Context context;
+private ITaskView taskView;
 
     public TaskListAdapter(Context context, int resource, List<IListFragment> objects) {
         super(context, resource, objects);
@@ -43,6 +45,8 @@ public class TaskListAdapter extends ArrayAdapter<IListFragment> {
 
         fragment.onCreate(null);
         View fragmentView = fragment.onCreateView(inflater, parent, null);
+fragment.onAttach(context);
+        ((IListFragment)fragment).setPosition(position);
 
         Animation fadeIn = new AlphaAnimation(0, 1);
         fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
@@ -70,6 +74,7 @@ public class TaskListAdapter extends ArrayAdapter<IListFragment> {
                 case Task:
                     TaskFragment taskFragment = (TaskFragment) iListFragment;
                     taskFragment.onCreate(null);
+                    taskFragment.setPosition(position);
                     taskFragment.UpdateData(convertView);
                     return true;
                 case Seperator:

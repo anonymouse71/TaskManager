@@ -12,15 +12,20 @@ import com.example.emil.taskmanager.fragments.TaskFragment;
 
 public class CreateTaskActivity extends AppCompatActivity {
 
+    private Task task;
+    private int position;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
 
-        Task task = (Task) getIntent().getSerializableExtra("Task");
+        task = (Task) getIntent().getSerializableExtra("Task");
         if (task != null){
             EditText title = (EditText)findViewById(R.id.CreateTask_Title);
             title.setText(task.getTitle());
+
+            position = (int) getIntent().getSerializableExtra("Position");
 
             EditText description = (EditText)findViewById(R.id.CreateTask_Description);
             description.setText(task.getDescription());
@@ -28,15 +33,28 @@ public class CreateTaskActivity extends AppCompatActivity {
     }
 
     public void saveClicked(View v){
+        if (task == null){
+            EditText title = (EditText)findViewById(R.id.CreateTask_Title);
 
-        EditText title = (EditText)findViewById(R.id.CreateTask_Title);
+            EditText description = (EditText)findViewById(R.id.CreateTask_Description);
 
-        EditText description = (EditText)findViewById(R.id.CreateTask_Description);
+            Task task = new Task(title.getText().toString(),description.getText().toString());
 
-        Task task = new Task(title.getText().toString(),description.getText().toString());
+            Intent intent = new Intent(this,TaskViewActivity.class);
+            intent.putExtra("Task",task);
+            startActivity(intent);
+        } else {
+            EditText title = (EditText)findViewById(R.id.CreateTask_Title);
 
-        Intent intent = new Intent(this,TaskViewActivity.class);
-        intent.putExtra("Task",task);
-        startActivity(intent);
+            EditText description = (EditText)findViewById(R.id.CreateTask_Description);
+
+            task.setTitle(title.getText().toString());
+            task.setDescription(description.getText().toString());
+
+            Intent intent = new Intent(this,TaskViewActivity.class);
+            intent.putExtra("Task",task);
+            intent.putExtra("Position",position);
+            startActivity(intent);
+        }
     }
 }

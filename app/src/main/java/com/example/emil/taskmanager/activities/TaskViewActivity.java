@@ -18,10 +18,11 @@ import com.example.emil.taskmanager.fragments.SeperatorFragment;
 import com.example.emil.taskmanager.fragments.TaskFragment;
 import com.example.emil.taskmanager.TaskListAdapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskViewActivity extends AppCompatActivity {
+public class TaskViewActivity extends AppCompatActivity implements ITaskView {
 
     private TaskListAdapter listAdapter;
 
@@ -41,9 +42,6 @@ public class TaskViewActivity extends AppCompatActivity {
         fragments.add(TaskFragment.newInstance("Fitness", "Test"));
         fragments.add(SeperatorFragment.newInstance("a", "b"));
 
-        for (IListFragment frag : fragments){
-            onAttachFragment((Fragment)frag);
-        }
 
         final TaskListAdapter adapter = new TaskListAdapter(this,R.layout.fragment_task,fragments);
 
@@ -62,9 +60,17 @@ public class TaskViewActivity extends AppCompatActivity {
         //If a Task is passed from CreateTask
         Task task = (Task) getIntent().getSerializableExtra("Task");
         if (task != null){
-            adapter.add(TaskFragment.newInstance(task.getTitle(),task.getDescription()));
-            adapter.notifyDataSetChanged();
+            Serializable taskPosition = getIntent().getSerializableExtra("Position");
+            if (taskPosition == null) {
+                adapter.add(TaskFragment.newInstance(task.getTitle(), task.getDescription()));
+                adapter.notifyDataSetChanged();
+            }else {
+                int pos = (int) taskPosition;
+                ((TaskFragment)adapter.getItem(pos)).setTask(task);
+                adapter.notifyDataSetChanged();
+            }
         }
+
     }
 
 
@@ -75,7 +81,7 @@ public class TaskViewActivity extends AppCompatActivity {
         task.setTitle(titleText.getText().toString());
 
         Intent intent = new Intent(this, CreateTaskActivity.class);
-        intent.putExtra("Task",task);
+        intent.putExtra("Task", task);
         startActivity(intent);
     }
 
@@ -84,4 +90,16 @@ public class TaskViewActivity extends AppCompatActivity {
         listAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+    }
+
+    @Override
+    public void EditTask(Task task,int position) {
+        Intent intent = new Intent(this, CreateTaskActivity.class);
+        intent.putExtra("Task", task);
+        intent.putExtra("Position", position);
+        startActivity(intent);
+    }
 }
