@@ -8,52 +8,50 @@ import android.widget.EditText;
 
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.entities.Task;
-import com.example.emil.taskmanager.fragments.TaskFragment;
+
+import java.io.Serializable;
 
 public class CreateTaskActivity extends AppCompatActivity {
 
     private Task task;
-    private int position;
+
+    private EditText titleText;
+    private EditText descripitionText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
 
-        task = (Task) getIntent().getSerializableExtra("Task");
-        if (task != null){
-            EditText title = (EditText)findViewById(R.id.CreateTask_Title);
-            title.setText(task.getTitle());
+        titleText = (EditText)findViewById(R.id.CreateTask_Title);
+        descripitionText = (EditText)findViewById(R.id.CreateTask_Description);
 
-            position = (int) getIntent().getSerializableExtra("Position");
+        Serializable id = getIntent().getSerializableExtra("Id");
+        if (id != null){
 
-            EditText description = (EditText)findViewById(R.id.CreateTask_Description);
-            description.setText(task.getDescription());
+            task = Task.findById(Task.class,(long)id);
+
+            titleText.setText(task.getTitle());
+            descripitionText.setText(task.getDescription());
         }
     }
 
     public void saveClicked(View v){
+
         if (task == null){
-            EditText title = (EditText)findViewById(R.id.CreateTask_Title);
 
-            EditText description = (EditText)findViewById(R.id.CreateTask_Description);
-
-            Task task = new Task(title.getText().toString(),description.getText().toString());
+            Task task = new Task(titleText.getText().toString(),descripitionText.getText().toString());
+            Task.save(task);
 
             Intent intent = new Intent(this,TaskViewActivity.class);
-            intent.putExtra("Task",task);
             startActivity(intent);
         } else {
-            EditText title = (EditText)findViewById(R.id.CreateTask_Title);
+            task.setTitle(titleText.getText().toString());
+            task.setDescription(descripitionText.getText().toString());
 
-            EditText description = (EditText)findViewById(R.id.CreateTask_Description);
-
-            task.setTitle(title.getText().toString());
-            task.setDescription(description.getText().toString());
+            Task.save(task);
 
             Intent intent = new Intent(this,TaskViewActivity.class);
-            intent.putExtra("Task",task);
-            intent.putExtra("Position",position);
             startActivity(intent);
         }
     }

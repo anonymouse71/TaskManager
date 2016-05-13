@@ -22,8 +22,8 @@ import java.util.List;
 public class TaskListAdapter extends ArrayAdapter<IListFragment> {
 
     private List<IListFragment> fragments;
-    private  Context context;
-private ITaskView taskView;
+    private Context context;
+    private ITaskView taskView;
 
     public TaskListAdapter(Context context, int resource, List<IListFragment> objects) {
         super(context, resource, objects);
@@ -45,8 +45,7 @@ private ITaskView taskView;
 
         fragment.onCreate(null);
         View fragmentView = fragment.onCreateView(inflater, parent, null);
-fragment.onAttach(context);
-        ((IListFragment)fragment).setPosition(position);
+        fragment.onAttach(context);
 
         Animation fadeIn = new AlphaAnimation(0, 1);
         fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
@@ -59,6 +58,7 @@ fragment.onAttach(context);
 
     /**
      * Returns true if View can be reused, false otherwise
+     *
      * @param position
      * @param convertView
      * @return
@@ -74,7 +74,6 @@ fragment.onAttach(context);
                 case Task:
                     TaskFragment taskFragment = (TaskFragment) iListFragment;
                     taskFragment.onCreate(null);
-                    taskFragment.setPosition(position);
                     taskFragment.UpdateData(convertView);
                     return true;
                 case Seperator:

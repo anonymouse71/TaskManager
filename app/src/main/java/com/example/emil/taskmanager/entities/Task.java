@@ -1,11 +1,13 @@
 package com.example.emil.taskmanager.entities;
 
+import com.orm.SugarRecord;
+
 import java.io.Serializable;
 
 /**
  * Created by Nikolaj on 5/11/2016.
  */
-public class Task implements Serializable {
+public class Task extends SugarRecord implements Serializable {
     private String title;
     private String description;
 

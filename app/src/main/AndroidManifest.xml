@@ -3,11 +3,25 @@
     package="com.example.emil.taskmanager">
 
     <application
+        android:name="com.orm.SugarApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="DATABASE"
+            android:value="task_manager.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="2" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.example.emil.taskmanager.entities" />
+
         <activity
             android:name=".activities.HomeActivity"
             android:label="@string/app_name"
@@ -23,7 +37,17 @@
             android:label="@string/title_activity_task_view"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.CreateTaskActivity" />
-        <activity android:name=".activities.ProfileViewActivity"></activity>
+        <activity android:name=".activities.ProfileViewActivity" />
+
+        <service
+            android:name=".service.TaskService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".activities.TaskDetailsActivity"
+            android:label="@string/title_activity_task_details"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

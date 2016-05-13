@@ -8,7 +8,4 @@ import com.example.emil.taskmanager.FragmentType;
 public interface IListFragment {
     FragmentType getFragmentType();
 
-    int getPosition();
-    void setPosition(int position);
-
 }

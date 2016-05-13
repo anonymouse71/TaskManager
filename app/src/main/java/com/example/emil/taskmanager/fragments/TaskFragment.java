@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.emil.taskmanager.FragmentType;
@@ -31,7 +32,7 @@ public class TaskFragment extends Fragment implements IListFragment {
 
     private final FragmentType FRAGMENT_TYPE = FragmentType.Task;
 
-    private static final String TITLE = "param1";
+    private static final String Task = "task";
     private static final String DESCRIPTION = "param2";
 
     private Task task;
@@ -69,11 +70,10 @@ public class TaskFragment extends Fragment implements IListFragment {
      * @return A new instance of fragment TaskFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TaskFragment newInstance(String title, String description) {
+    public static TaskFragment newInstance(Task task) {
         TaskFragment fragment = new TaskFragment();
         Bundle args = new Bundle();
-        args.putString(TITLE, title);
-        args.putString(DESCRIPTION, description);
+        args.putSerializable(Task, task);
         fragment.setArguments(args);
         return fragment;
     }
@@ -82,9 +82,8 @@ public class TaskFragment extends Fragment implements IListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null && task == null) {
-            task = new Task();
-            task.setTitle(getArguments().getString(TITLE));
-            task.setDescription(getArguments().getString(DESCRIPTION));
+            task = (Task) getArguments().getSerializable(Task);
+
         }
 
 
@@ -98,9 +97,11 @@ public class TaskFragment extends Fragment implements IListFragment {
         TextView titleText = (TextView) view.findViewById(R.id.Task_Title);
         titleText.setText(task.getTitle());
 
-        Button btn = (Button) view.findViewById(R.id.EditTaskBtn);
+        Button btnEdit = (Button) view.findViewById(R.id.EditTaskBtn);
+        btnEdit.setOnClickListener(editPressed());
 
-        btn.setOnClickListener(editPressed());
+        FrameLayout btnDetails = (FrameLayout) view.findViewById(R.id.TaskFragmentMain);
+        btnDetails.setOnClickListener(detailsPressed());
 
         view.setTag(FRAGMENT_TYPE);
         // Inflate the layout for this fragment
@@ -111,7 +112,16 @@ public class TaskFragment extends Fragment implements IListFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.EditTask(task,position);
+                mListener.EditTask(task);
+            }
+        };
+    }
+
+    private View.OnClickListener detailsPressed(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.ViewDetails(task);
             }
         };
     }

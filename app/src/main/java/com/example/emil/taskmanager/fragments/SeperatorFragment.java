@@ -81,7 +81,7 @@ public class SeperatorFragment extends Fragment implements IListFragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.EditTask(null,0);
+            mListener.EditTask(null);
         }
     }
 
@@ -106,17 +106,6 @@ public class SeperatorFragment extends Fragment implements IListFragment {
     public FragmentType getFragmentType() {
         return FRAGMENT_TYPE;
     }
-
-    @Override
-    public int getPosition() {
-        return 0;
-    }
-
-    @Override
-    public void setPosition(int position) {
-
-    }
-
 
     /**
      * This interface must be implemented by activities that contain this
