@@ -6,42 +6,102 @@
     android:id="@+id/TaskFragmentMain">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Take out the trash"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:textColor="#525252"
-        android:id="@+id/Task_Title" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="12:00 Mon"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/Task_Date"
-        android:layout_gravity="left|center_vertical"
-        android:foreground="#0fffffff"
-        android:textColor="#a3a3a3"
-        android:textSize="12dp" />
+    <RelativeLayout
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="#304ffe"
+        android:layout_gravity="right"
+        android:layout_marginRight="40dp">
 
-    <Switch
-        android:layout_width="53dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/switch1"
-        android:layout_gravity="right|center_vertical"
-        android:layout_marginRight="10dp" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Task_Edit_Btn"
+            android:layout_alignTop="@+id/switch1"
+            android:layout_alignLeft="@+id/EditTaskBtn"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="false"
+            android:src="@android:drawable/ic_menu_edit"
+            android:background="#00ffff00"
+            android:tint="#eeeeee"
+            android:contentDescription="Delete"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit"
-        android:id="@+id/EditTaskBtn"
-        android:layout_gravity="right|center_vertical"
-        android:layout_marginRight="60dp"
-        android:onClick="EditTaskBtn" />
+    <RelativeLayout
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="#d50000"
+        android:layout_gravity="right">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Task_Delete_Btn"
+            android:layout_alignTop="@+id/switch1"
+            android:layout_alignLeft="@+id/EditTaskBtn"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="false"
+            android:src="@android:drawable/ic_menu_delete"
+            android:background="#00ffff00"
+            android:tint="#eeeeee"
+            android:contentDescription="Delete"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:id="@+id/Fragment_Overlay"
+        android:visibility="visible"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Take out the trash"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#525252"
+            android:id="@+id/Task_Title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12:00 Mon"
+            android:id="@+id/Task_Date"
+            android:layout_gravity="left|center_vertical"
+            android:foreground="#0fffffff"
+            android:textColor="#a3a3a3"
+            android:textSize="12dp"
+            android:layout_below="@+id/Task_Title"
+            android:layout_alignLeft="@+id/Task_Title"
+            android:layout_alignStart="@+id/Task_Title" />
+
+        <Switch
+            android:layout_width="53dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/switch1"
+            android:layout_gravity="right|center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="24dp"
+            android:layout_marginEnd="24dp" />
+
+    </RelativeLayout>
 
 </FrameLayout>

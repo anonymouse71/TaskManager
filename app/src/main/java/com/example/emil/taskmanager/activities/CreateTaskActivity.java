@@ -46,10 +46,11 @@ public class CreateTaskActivity extends AppCompatActivity {
             Intent intent = new Intent(this,TaskViewActivity.class);
             startActivity(intent);
         } else {
-            task.setTitle(titleText.getText().toString());
-            task.setDescription(descripitionText.getText().toString());
+            Task tempTask = Task.findById(Task.class,task.getId());
+            tempTask.setTitle(titleText.getText().toString());
+            tempTask.setDescription(descripitionText.getText().toString());
 
-            Task.save(task);
+            Task.save(tempTask);
 
             Intent intent = new Intent(this,TaskViewActivity.class);
             startActivity(intent);

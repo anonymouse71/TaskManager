@@ -21,7 +21,7 @@ import com.example.emil.taskmanager.activities.ITaskView;
  * Use the {@link SeperatorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SeperatorFragment extends Fragment implements IListFragment {
+public class SeperatorFragment extends Fragment implements IListFragment<Void> {
     private final FragmentType FRAGMENT_TYPE = FragmentType.Seperator;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -105,6 +105,11 @@ public class SeperatorFragment extends Fragment implements IListFragment {
     @Override
     public FragmentType getFragmentType() {
         return FRAGMENT_TYPE;
+    }
+
+    @Override
+    public void updateData(Void data) {
+
     }
 
     /**

@@ -61,18 +61,6 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskView {
         listAdapter = adapter;
     }
 
-
-    public void EditTaskBtn(View v){
-        TextView titleText = (TextView) v.getRootView().findViewById(R.id.Task_Title);
-
-        Task task = new Task();
-        task.setTitle(titleText.getText().toString());
-
-        Intent intent = new Intent(this, CreateTaskActivity.class);
-        intent.putExtra("Task", task);
-        startActivity(intent);
-    }
-
     public void NewTaskBtn(View v){
         Task task = new Task("Test","Test");
         Task.save(task);

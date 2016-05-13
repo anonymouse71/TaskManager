@@ -44,8 +44,9 @@ public class TaskListAdapter extends ArrayAdapter<IListFragment> {
         Fragment fragment = (Fragment) fragments.get(position);
 
         fragment.onCreate(null);
-        View fragmentView = fragment.onCreateView(inflater, parent, null);
         fragment.onAttach(context);
+        View fragmentView = fragment.onCreateView(inflater, parent, null);
+
 
         Animation fadeIn = new AlphaAnimation(0, 1);
         fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
