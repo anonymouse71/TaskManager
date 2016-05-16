@@ -69,7 +69,7 @@ public class LoginFragment extends Fragment {
 
         View view =  inflater.inflate(R.layout.fragment_login, container, false);
 
-        Button loginBtn = (Button) view.findViewById(R.id.LoginBtn);
+        Button loginBtn = (Button) view.findViewById(R.id.login_activity_login_button);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
