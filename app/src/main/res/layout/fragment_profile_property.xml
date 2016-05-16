@@ -1,39 +1,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_view_property"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    tools:context=".fragments.ProfilePropertyFragment"
-    android:id="@+id/profile_view_property">
+    tools:context=".fragments.ProfilePropertyFragment">
 
 
     <TextView
+        android:id="@+id/profile_property_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Username"
-        android:id="@+id/textView8"
-        android:layout_marginLeft="17dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="17dp" />
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="17dp"
+        android:text="Username"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
+        android:id="@+id/profile_property_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignLeft="@+id/profile_property_title"
+        android:layout_alignStart="@+id/profile_property_title"
+        android:layout_below="@+id/profile_property_title"
         android:text="\@nicolai"
-        android:id="@+id/textView9"
-        android:layout_below="@+id/textView8"
-        android:layout_alignLeft="@+id/textView8"
-        android:layout_alignStart="@+id/textView8" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/colorAccent"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="15dp">
-    </RelativeLayout>
+        android:layout_marginTop="15dp"
+        android:background="@color/colorAccent"></RelativeLayout>
 
 </RelativeLayout>

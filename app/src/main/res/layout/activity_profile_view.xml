@@ -41,7 +41,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/fragment_profile_property" />
+            <include layout="@layout/fragment_profile_property"
+                android:id="@+id/profile_view_fragment_username"/>
 
             <include layout="@layout/fragment_profile_property" />
 

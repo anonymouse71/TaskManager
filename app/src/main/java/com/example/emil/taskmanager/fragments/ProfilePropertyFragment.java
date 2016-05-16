@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.emil.taskmanager.R;
 
@@ -20,6 +21,9 @@ import com.example.emil.taskmanager.R;
  * create an instance of this fragment.
  */
 public class ProfilePropertyFragment extends Fragment {
+    // FUCK
+    private TextView text = (TextView) getView().findViewById(R.id.profile_property_title);
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -107,4 +111,14 @@ public class ProfilePropertyFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public void setPropertyTitle(String title) {
+        this.text.setText(title);
+    }
+
+    public void setPropertyValue() {
+
+    }
+
+
 }

@@ -12,4 +12,5 @@
     <string name="title_activity_task_details">TaskDetailsActivity</string>
     <string name="profile_title">Profile</string>
     <string name="task_add_title">Add Task</string>
+    <string name="profile_edit_title">Edit Profile</string>
 </resources>
