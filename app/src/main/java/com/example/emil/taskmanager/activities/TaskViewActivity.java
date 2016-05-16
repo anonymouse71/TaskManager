@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -43,7 +45,6 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
 
             }
         });
-
 
     }
 
@@ -89,5 +90,38 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
         Task.delete(task);
 
         listAdapter.remove(sender);
+    }
+
+    /**
+     * Inflates the menu and adds items to the action bar.
+     * @param menu
+     * @return true
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_logged_in, menu);
+        return true;
+    }
+
+    /**
+     * Handles action bar item clicks.
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_profile_view) {
+            Intent intent = new Intent(this, ProfileViewActivity.class);
+            startActivity(intent);
+        }
+
+        if (id == R.id.action_task_add) {
+            Intent intent = new Intent(this, CreateTaskActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
