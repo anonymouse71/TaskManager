@@ -1,4 +1,4 @@
-package com.example.emil.taskmanager;
+package com.example.emil.taskmanager.adapters;
 
 import android.support.v4.app.Fragment;
 import android.content.Context;
@@ -10,7 +10,8 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ArrayAdapter;
 
-import com.example.emil.taskmanager.activities.ITaskView;
+import com.example.emil.taskmanager.utils.FragmentType;
+import com.example.emil.taskmanager.listeners.ITaskViewListener;
 import com.example.emil.taskmanager.fragments.IListFragment;
 import com.example.emil.taskmanager.fragments.TaskFragment;
 
@@ -23,7 +24,7 @@ public class TaskListAdapter extends ArrayAdapter<IListFragment> {
 
     private List<IListFragment> fragments;
     private Context context;
-    private ITaskView taskView;
+    private ITaskViewListener taskView;
 
     public TaskListAdapter(Context context, int resource, List<IListFragment> objects) {
         super(context, resource, objects);
@@ -35,10 +36,10 @@ public class TaskListAdapter extends ArrayAdapter<IListFragment> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        //Reuse View if possible
+        /*//Reuse View if possible
         if (convertView != null && canConvertView(position, convertView)) {
             return convertView;
-        }
+        }*/
 
         //Create new Fragment
         Fragment fragment = (Fragment) fragments.get(position);
@@ -50,7 +51,7 @@ public class TaskListAdapter extends ArrayAdapter<IListFragment> {
 
         Animation fadeIn = new AlphaAnimation(0, 1);
         fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
-        fadeIn.setDuration(1000);
+        fadeIn.setDuration(300);
 
         fragmentView.setAnimation(fadeIn);
 

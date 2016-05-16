@@ -2,16 +2,20 @@ package com.example.emil.taskmanager.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 
+import com.example.emil.taskmanager.listeners.IStartScreenListener;
 import com.example.emil.taskmanager.R;
+import com.example.emil.taskmanager.adapters.StartPagePagerAdapter;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements IStartScreenListener {
+
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +24,13 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button loginButton = (Button)findViewById(R.id.login_button);
+        /*Button loginButton = (Button)findViewById(R.id.login_button);
 
-        loginButton.setOnClickListener(loginClicked());
+        loginButton.setOnClickListener(loginClicked());*/
+
+        viewPager = (ViewPager) findViewById(R.id.start_screen_viewPager);
+        StartPagePagerAdapter adapter = new StartPagePagerAdapter(getSupportFragmentManager(),this);
+        viewPager.setAdapter(adapter);
     }
 
     private View.OnClickListener loginClicked(){
@@ -55,5 +63,21 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void loginPressed(String username, String password) {
+        Intent intent = new Intent(this, TaskViewActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void registerPressed(String username, String password) {
+
+    }
+
+    @Override
+    public void switchPage(int page) {
+        viewPager.setCurrentItem(page);
     }
 }

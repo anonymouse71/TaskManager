@@ -8,22 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.emil.taskmanager.utils.FragmentType;
 import com.example.emil.taskmanager.R;
-import com.example.emil.taskmanager.listeners.ITaskViewListener;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SeperatorFragment.OnFragmentInteractionListener} interface
+ * {@link ProfilePropertyFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SeperatorFragment#newInstance} factory method to
+ * Use the {@link ProfilePropertyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SeperatorFragment extends Fragment implements IListFragment<Void> {
-    private final FragmentType FRAGMENT_TYPE = FragmentType.Seperator;
-
+public class ProfilePropertyFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -33,9 +29,9 @@ public class SeperatorFragment extends Fragment implements IListFragment<Void> {
     private String mParam1;
     private String mParam2;
 
-    private ITaskViewListener mListener;
+    private OnFragmentInteractionListener mListener;
 
-    public SeperatorFragment() {
+    public ProfilePropertyFragment() {
         // Required empty public constructor
     }
 
@@ -45,11 +41,11 @@ public class SeperatorFragment extends Fragment implements IListFragment<Void> {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SeperatorFragment.
+     * @return A new instance of fragment ProfilePropertyFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SeperatorFragment newInstance(String param1, String param2) {
-        SeperatorFragment fragment = new SeperatorFragment();
+    public static ProfilePropertyFragment newInstance(String param1, String param2) {
+        ProfilePropertyFragment fragment = new ProfilePropertyFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -69,27 +65,22 @@ public class SeperatorFragment extends Fragment implements IListFragment<Void> {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_seperator, container, false);
-
-        view.setTag(FRAGMENT_TYPE);
-
         // Inflate the layout for this fragment
-        return view;
+        return inflater.inflate(R.layout.fragment_profile_property, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.EditTask(null);
+            mListener.onFragmentInteraction(uri);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ITaskViewListener) {
-            mListener = (ITaskViewListener) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -100,16 +91,6 @@ public class SeperatorFragment extends Fragment implements IListFragment<Void> {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public FragmentType getFragmentType() {
-        return FRAGMENT_TYPE;
-    }
-
-    @Override
-    public void updateData(View view,Void data) {
-
     }
 
     /**

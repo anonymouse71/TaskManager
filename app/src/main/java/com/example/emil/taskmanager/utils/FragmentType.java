@@ -1,4 +1,4 @@
-package com.example.emil.taskmanager;
+package com.example.emil.taskmanager.utils;
 
 /**
  * Created by Administrator on 5/11/2016.

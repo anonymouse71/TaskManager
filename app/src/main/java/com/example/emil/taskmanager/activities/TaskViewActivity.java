@@ -7,18 +7,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.emil.taskmanager.entities.Task;
 import com.example.emil.taskmanager.fragments.IListFragment;
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.fragments.TaskFragment;
-import com.example.emil.taskmanager.TaskListAdapter;
+import com.example.emil.taskmanager.adapters.TaskListAdapter;
+import com.example.emil.taskmanager.listeners.ITaskViewListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskViewActivity extends AppCompatActivity implements ITaskView {
+public class TaskViewActivity extends AppCompatActivity implements ITaskViewListener {
 
     private TaskListAdapter listAdapter;
     private ListView listView;
@@ -65,7 +65,7 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskView {
         Task task = new Task("Test","Test");
         Task.save(task);
 
-        listAdapter.add(TaskFragment.newInstance(new Task("Abe","Fisk")));
+        listAdapter.add(TaskFragment.newInstance(task));
         listAdapter.notifyDataSetChanged();
     }
 

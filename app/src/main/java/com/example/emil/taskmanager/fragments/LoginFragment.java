@@ -7,23 +7,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
-import com.example.emil.taskmanager.utils.FragmentType;
+import com.example.emil.taskmanager.listeners.IStartScreenListener;
 import com.example.emil.taskmanager.R;
-import com.example.emil.taskmanager.listeners.ITaskViewListener;
-
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SeperatorFragment.OnFragmentInteractionListener} interface
+ * {@link LoginFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SeperatorFragment#newInstance} factory method to
+ * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SeperatorFragment extends Fragment implements IListFragment<Void> {
-    private final FragmentType FRAGMENT_TYPE = FragmentType.Seperator;
-
+public class LoginFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -33,9 +30,9 @@ public class SeperatorFragment extends Fragment implements IListFragment<Void> {
     private String mParam1;
     private String mParam2;
 
-    private ITaskViewListener mListener;
+    private IStartScreenListener mListener;
 
-    public SeperatorFragment() {
+    public LoginFragment() {
         // Required empty public constructor
     }
 
@@ -45,11 +42,11 @@ public class SeperatorFragment extends Fragment implements IListFragment<Void> {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SeperatorFragment.
+     * @return A new instance of fragment LoginFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SeperatorFragment newInstance(String param1, String param2) {
-        SeperatorFragment fragment = new SeperatorFragment();
+    public static LoginFragment newInstance(String param1, String param2) {
+        LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -70,9 +67,24 @@ public class SeperatorFragment extends Fragment implements IListFragment<Void> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_seperator, container, false);
+        View view =  inflater.inflate(R.layout.fragment_login, container, false);
 
-        view.setTag(FRAGMENT_TYPE);
+        Button loginBtn = (Button) view.findViewById(R.id.LoginBtn);
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.loginPressed("test","test");
+            }
+        });
+
+        Button registerBtn = (Button) view.findViewById(R.id.SwitchToRegisterBtn);
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.switchPage(2);
+            }
+        });
+
 
         // Inflate the layout for this fragment
         return view;
@@ -81,15 +93,15 @@ public class SeperatorFragment extends Fragment implements IListFragment<Void> {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.EditTask(null);
+           // mListener.onFragmentInteraction(uri);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ITaskViewListener) {
-            mListener = (ITaskViewListener) context;
+        if (context instanceof IStartScreenListener) {
+            mListener = (IStartScreenListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -100,16 +112,6 @@ public class SeperatorFragment extends Fragment implements IListFragment<Void> {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public FragmentType getFragmentType() {
-        return FRAGMENT_TYPE;
-    }
-
-    @Override
-    public void updateData(View view,Void data) {
-
     }
 
     /**

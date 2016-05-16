@@ -1,29 +1,22 @@
 package com.example.emil.taskmanager.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.emil.taskmanager.FragmentType;
+import com.example.emil.taskmanager.utils.AnimationUtil;
+import com.example.emil.taskmanager.utils.FragmentType;
 import com.example.emil.taskmanager.R;
-import com.example.emil.taskmanager.activities.CreateTaskActivity;
-import com.example.emil.taskmanager.activities.ITaskView;
-import com.example.emil.taskmanager.activities.TaskViewActivity;
+import com.example.emil.taskmanager.listeners.ITaskViewListener;
 import com.example.emil.taskmanager.entities.Task;
 
 
@@ -63,7 +56,7 @@ public class TaskFragment extends Fragment implements IListFragment<Task> {
 
     private int position;
 
-    private ITaskView mListener;
+    private ITaskViewListener mListener;
 
     public TaskFragment() {
         // Required empty public constructor
@@ -112,28 +105,22 @@ public class TaskFragment extends Fragment implements IListFragment<Task> {
         ImageButton deleteBtn = (ImageButton) view.findViewById(R.id.Task_Delete_Btn);
         deleteBtn.setOnClickListener(deletePressed());
 
-        UpdateGUI(view);
+        updateGUI(view);
 
         view.setTag(FRAGMENT_TYPE);
         // Inflate the layout for this fragment
         return view;
     }
 
-    private void UpdateGUI(View view) {
-        TextView titleText = (TextView) view.findViewById(R.id.Task_Title);
-        titleText.setText(task.getTitle());
-    }
 
-    private boolean IsDeleting;
-    private float x1,x2;
-    private final int MIN_DISTANCE = 20;
 
-    private View.OnTouchListener handleTouch(){
+    private float x1, x2;
+
+    private View.OnTouchListener handleTouch() {
         return new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch(event.getAction())
-                {
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         x1 = event.getX();
                         break;
@@ -141,45 +128,31 @@ public class TaskFragment extends Fragment implements IListFragment<Task> {
                     case MotionEvent.ACTION_UP:
                         x2 = event.getX();
                         float deltaX = x2 - x1;
-                        if (Math.abs(deltaX) > MIN_DISTANCE)
-                        {
-                            // Left to Right swipe action
-                            if (x2 > x1 && IsDeleting)
-                            {
-                                RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.Fragment_Overlay);
+                        RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.Fragment_Overlay);
 
-                                layout.animate()
-                                        .translationX(convertDpToPixel(0, ctx))
-                                        .setDuration(300)
-                                        .start();
-
-                                IsDeleting = false;
-                                return true;
-                            }
-
-                            // Right to left swipe action
-                            else if (x1 > x2 && !IsDeleting)
-                            {
-                                RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.Fragment_Overlay);
-
-                                layout.animate()
-                                        .translationX(convertDpToPixel(-80, ctx))
-                                        .setDuration(300)
-                                        .start();
-
-                                IsDeleting = true;
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            // consider as something else - a screen tap for example
-                        }
+                        if (DetermineSwipeDirection(deltaX, layout))
+                            return true;
                         break;
                 }
                 return false;
             }
         };
+    }
+
+
+    private final int MIN_DISTANCE = 20;
+
+    private boolean DetermineSwipeDirection(float deltaX, RelativeLayout layout) {
+        if (Math.abs(deltaX) > MIN_DISTANCE) {
+            // Left to Right swipe action
+            if (x2 > x1)
+                AnimationUtil.swipeOpen(layout, ctx, 0);
+            else
+                AnimationUtil.swipeOpen(layout, ctx, -80);
+
+            return true;
+        }
+        return false;
     }
 
     private View.OnClickListener editPressed() {
@@ -202,7 +175,6 @@ public class TaskFragment extends Fragment implements IListFragment<Task> {
     }
 
 
-
     private View.OnClickListener detailsPressed() {
         return new View.OnClickListener() {
             @Override
@@ -213,46 +185,34 @@ public class TaskFragment extends Fragment implements IListFragment<Task> {
         };
     }
 
-    public static float convertDpToPixel(float dp, Context context) {
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-        return px;
+    private void updateGUI(View view) {
+        TextView titleText = (TextView) view.findViewById(R.id.Task_Title);
+        titleText.setText(task.getTitle());
     }
 
     @Override
-    public void updateData(Task data) {
+    public void updateData(View view,Task data) {
+
         task = data;
+        updateGUI(view);
     }
 
     public void UpdateData(View view) {
 
-        UpdateGUI(view);
+        updateGUI(view);
         RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.Fragment_Overlay);
 
-        if (ctx != null){
-            layout.animate()
-                    .translationX(convertDpToPixel(0, ctx))
-                    .setDuration(0)
-                    .start();
-            IsDeleting = false;
+        if (ctx != null)
+        AnimationUtil.swipeOpen(layout, ctx, 0);
 
-        }
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-/*    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }*/
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         ctx = context;
-        if (context instanceof ITaskView) {
-            mListener = (ITaskView) context;
+        if (context instanceof ITaskViewListener) {
+            mListener = (ITaskViewListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -270,21 +230,4 @@ public class TaskFragment extends Fragment implements IListFragment<Task> {
         return FRAGMENT_TYPE;
     }
 
-
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }
