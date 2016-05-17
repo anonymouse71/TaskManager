@@ -15,4 +15,12 @@
     <string name="profile_edit_title">Edit Profile</string>
     <string name="login_activity_title">LOGIN</string>
     <string name="login_activity_forgot_password">Forgot your password?</string>
+    <string name="register_activity_title">REGISTER</string>
+    <string name="register_username">USERNAME</string>
+    <string name="register_activity_password_label">PASSWORD</string>
+    <string name="register_activity_register_button">REGISTER</string>
+    <string name="register_activity_firstname_label">FIRST NAME</string>
+    <string name="register_activity_lastname_label">LAST NAME</string>
+    <string name="register_activity_email_label">EMAIL</string>
+    <string name="register_activity_repeat_password_label">REPEAT PASSWORD</string>
 </resources>
