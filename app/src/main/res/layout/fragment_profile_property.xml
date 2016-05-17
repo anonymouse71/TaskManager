@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="17dp"
         android:layout_marginTop="17dp"
-        android:text="@string/profile_property_title"
+        android:text="Title"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold" />
@@ -28,7 +28,7 @@
         android:layout_alignStart="@+id/profile_property_title"
         android:layout_below="@+id/profile_property_title"
         android:layout_marginTop="6dp"
-        android:text="@string/profile_property_value"
+        android:text="Value"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <RelativeLayout
