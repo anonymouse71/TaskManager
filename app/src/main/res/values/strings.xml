@@ -1,13 +1,29 @@
 <resources>
     <string name="app_name">Task Manager</string>
     <string name="action_settings">Settings</string>
-    <string name="login_username">Username</string>
-    <string name="login_password">Password</string>
-    <string name="login_submit">Login</string>
-    <string name="login_register">Register</string>
-    <string name="title_activity_task_view">TaskView</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="login_username">USERNAME</string>
+    <string name="login_password">PASSWORD</string>
+    <string name="login_activity_login_button">LOG IN</string>
+    <string name="login_register">REGISTER</string>
+    <string name="title_activity_task_view">Current Tasks</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="image_description_profile_picture">Profile picture</string>
     <string name="title_activity_task_details">TaskDetailsActivity</string>
+    <string name="profile_title">Profile</string>
+    <string name="task_add_title">Add Task</string>
+    <string name="profile_edit_title">Edit Profile</string>
+    <string name="login_activity_title">LOGIN</string>
+    <string name="login_activity_forgot_password">Forgot your password?</string>
+    <string name="register_activity_title">REGISTER</string>
+    <string name="register_username">USERNAME</string>
+    <string name="register_activity_password_label">PASSWORD</string>
+    <string name="register_activity_register_button">REGISTER</string>
+    <string name="register_activity_firstname_label">FIRST NAME</string>
+    <string name="register_activity_lastname_label">LAST NAME</string>
+    <string name="register_activity_email_label">EMAIL</string>
+    <string name="register_activity_repeat_password_label">REPEAT PASSWORD</string>
+    <string name="profile_property_title">TITLE</string>
+    <string name="profile_property_value">Value</string>
+    <string name="title_activity_task_create">Add Task</string>
+    <string name="title_activity_profile_view">Profile</string>
 </resources>

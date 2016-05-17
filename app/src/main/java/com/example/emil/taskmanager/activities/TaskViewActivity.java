@@ -2,9 +2,10 @@ package com.example.emil.taskmanager.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -33,36 +34,24 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
         listView = (ListView) findViewById(R.id.listView);
 
         startListView();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), CreateTaskActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-
     }
 
     private void startListView() {
         List<Task> tasks = Task.listAll(Task.class);
         List<IListFragment> fragments = new ArrayList<>();
 
-        for (Task task : tasks){
+        for (Task task : tasks) {
             fragments.add(TaskFragment.newInstance(task));
         }
 
-        final TaskListAdapter adapter = new TaskListAdapter(this, R.layout.fragment_task,fragments);
+        final TaskListAdapter adapter = new TaskListAdapter(this, R.layout.fragment_task, fragments);
 
         listView.setAdapter(adapter);
         listAdapter = adapter;
     }
 
-    public void NewTaskBtn(View v){
-        Task task = new Task("Test","Test");
+    public void NewTaskBtn(View v) {
+        Task task = new Task("Test", "Test");
         Task.save(task);
 
         listAdapter.add(TaskFragment.newInstance(task));
@@ -84,10 +73,45 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
     }
 
     @Override
-    public void DeleteTask(IListFragment sender,Task task) {
-        task = Task.findById(Task.class,task.getId());
+    public void DeleteTask(IListFragment sender, Task task) {
+        task = Task.findById(Task.class, task.getId());
         Task.delete(task);
 
         listAdapter.remove(sender);
+    }
+
+    /**
+     * Inflates the menu and adds items to the action bar.
+     *
+     * @param menu
+     * @return true
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_task_view, menu);
+        return true;
+    }
+
+    /**
+     * Handles action bar item clicks.
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_profile_view) {
+            Intent intent = new Intent(this, ProfileViewActivity.class);
+            startActivity(intent);
+        }
+
+        if (id == R.id.action_task_add) {
+            Intent intent = new Intent(this, CreateTaskActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

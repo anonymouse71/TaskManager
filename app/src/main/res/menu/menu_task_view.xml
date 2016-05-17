@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.TaskViewActivity">
+
+    <item
+        android:id="@+id/action_task_add"
+        android:icon="@drawable/plus_icon"
+        android:title="@string/task_add_title"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_profile_view"
+        android:icon="@drawable/user_icon"
+        android:title="@string/profile_title"
+        app:showAsAction="ifRoom"/>
+
+</menu>

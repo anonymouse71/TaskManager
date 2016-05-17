@@ -2,7 +2,9 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#e7e7e7</color>
     <color name="textFieldHeading">#212121</color>
     <color name="TriggerButton">#FF1DE9B6</color>
+    <color name="colorAccent">#E7E7E7</color>
+    <color name="colorDark">#434B62</color>
+    <color name="colorLight">#FFFFFF</color>
 </resources>
