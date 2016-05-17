@@ -5,7 +5,7 @@
     <string name="login_password">PASSWORD</string>
     <string name="login_activity_login_button">LOG IN</string>
     <string name="login_register">REGISTER</string>
-    <string name="title_activity_task_view">TaskView</string>
+    <string name="title_activity_task_view">Current Tasks</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="image_description_profile_picture">Profile picture</string>
     <string name="title_activity_task_details">TaskDetailsActivity</string>
@@ -22,4 +22,8 @@
     <string name="register_activity_lastname_label">LAST NAME</string>
     <string name="register_activity_email_label">EMAIL</string>
     <string name="register_activity_repeat_password_label">REPEAT PASSWORD</string>
+    <string name="profile_property_title">TITLE</string>
+    <string name="profile_property_value">Value</string>
+    <string name="title_activity_task_create">Add Task</string>
+    <string name="title_activity_profile_view">Profile</string>
 </resources>

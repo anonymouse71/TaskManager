@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:ems="10"
-        android:inputType="textPassword" />
+        android:inputType="time" />
 
     <Button
         android:id="@+id/login_activity_login_button"

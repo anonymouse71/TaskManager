@@ -20,7 +20,6 @@ public class ProfileViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
-        fetchProfileDetails();
     }
 
     /**
@@ -53,9 +52,4 @@ public class ProfileViewActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void fetchProfileDetails() {
-        Fragment frag = fm.findFragmentById(R.id.profile_view_fragment_username);
-        ;
-
-    }
 }
