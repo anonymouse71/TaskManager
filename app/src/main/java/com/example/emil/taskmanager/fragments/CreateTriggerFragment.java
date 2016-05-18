@@ -7,9 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 import com.example.emil.taskmanager.R;
+import com.example.emil.taskmanager.TriggerButtonFragment;
+import com.example.emil.taskmanager.adapters.TriggerButton;
+import com.example.emil.taskmanager.adapters.TriggerViewAdapter;
 import com.example.emil.taskmanager.listeners.ICreateTaskListener;
+import com.example.emil.taskmanager.listeners.ITriggerButtonListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -20,7 +28,7 @@ import com.example.emil.taskmanager.listeners.ICreateTaskListener;
  * Use the {@link CreateTriggerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CreateTriggerFragment extends Fragment {
+public class CreateTriggerFragment extends Fragment implements ITriggerButtonListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +38,7 @@ public class CreateTriggerFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ICreateTaskListener mListener;
+    private ITriggerButtonListener mListener;
 
     public CreateTriggerFragment() {
         // Required empty public constructor
@@ -66,8 +74,21 @@ public class CreateTriggerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_create_trigger, container, false);
+
+        GridView gridView = (GridView) view.findViewById(R.id.TriggerGridView);
+
+        List<TriggerButton> triggerButtonFragments = new ArrayList<>();
+
+        triggerButtonFragments.add(new TriggerButton(R.drawable.alarm_icon, "Alarm"));
+        triggerButtonFragments.add(new TriggerButton(R.drawable.date_icon, "Date"));
+
+        TriggerViewAdapter adapter = new TriggerViewAdapter(inflater.getContext(),R.layout.fragment_trigger_button,triggerButtonFragments,this);
+        adapter.notifyDataSetChanged();
+        gridView.setAdapter(adapter);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_trigger, container, false);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -80,8 +101,8 @@ public class CreateTriggerFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ICreateTaskListener) {
-            mListener = (ICreateTaskListener) context;
+        if (context instanceof ITriggerButtonListener) {
+            mListener = (ITriggerButtonListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -94,18 +115,11 @@ public class CreateTriggerFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+
+    @Override
+    public void Click() {
+        mListener.Click();
     }
+
+
 }

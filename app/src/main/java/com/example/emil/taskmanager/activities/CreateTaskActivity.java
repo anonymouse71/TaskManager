@@ -1,6 +1,9 @@
 package com.example.emil.taskmanager.activities;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,17 +12,26 @@ import android.widget.EditText;
 
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.adapters.CreateTaskPagerAdapter;
+import com.example.emil.taskmanager.adapters.TriggerViewAdapter;
 import com.example.emil.taskmanager.entities.Task;
+import com.example.emil.taskmanager.fragments.CreateTriggerFragment;
+import com.example.emil.taskmanager.fragments.TaskCreateFragment;
 import com.example.emil.taskmanager.listeners.ICreateTaskListener;
+import com.example.emil.taskmanager.listeners.ITriggerButtonListener;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CreateTaskActivity extends AppCompatActivity implements ICreateTaskListener {
+public class CreateTaskActivity extends AppCompatActivity implements ICreateTaskListener, ITriggerButtonListener {
 
     private Task task;
 
     private EditText titleText;
     private EditText descripitionText;
+    private ViewPager viewPager;
+    private CreateTaskPagerAdapter adapter;
+    private List<Fragment> fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +45,14 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             task = new Task();
         }
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.CreateTask_ViewPager);
+        viewPager = (ViewPager) findViewById(R.id.CreateTask_ViewPager);
 
-        CreateTaskPagerAdapter adapter = new CreateTaskPagerAdapter(getSupportFragmentManager(),task);
+        fragments = new ArrayList<>();
+        fragments.add(TaskCreateFragment.newInstance(task));
+        fragments.add(CreateTriggerFragment.newInstance("", ""));
+
+        adapter = new CreateTaskPagerAdapter(this,task, fragments);
         viewPager.setAdapter(adapter);
-
 
     }
 
@@ -81,5 +96,14 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             Intent intent = new Intent(this,TaskViewActivity.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void Click() {
+        fragments.remove(1);
+        fragments.add(TaskCreateFragment.newInstance(task));
+        adapter.notifyDataSetChanged();
+        /*viewPager.removeViewAt(viewPager.getCurrentItem());
+        viewPager.addView();*/
     }
 }
