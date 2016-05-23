@@ -1,16 +1,21 @@
 package com.example.emil.taskmanager.activities;
 
-import android.app.Fragment;
+import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.fragments.ProfilePropertyFragment;
+
+import java.util.List;
 
 public class ProfileViewActivity extends AppCompatActivity {
 
@@ -20,6 +25,18 @@ public class ProfileViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        LinearLayout layout = (LinearLayout) findViewById(R.id.profile_listView);
+
+        Fragment fragment = (Fragment)ProfilePropertyFragment.newInstance("Username", "Lars");
+
+
+        fragment.onCreate(null);
+
+        layout.addView(fragment.onCreateView(inflater,layout,null));
+
     }
 
     /**

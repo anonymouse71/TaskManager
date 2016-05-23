@@ -7,33 +7,32 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.emil.taskmanager.R;
+import com.example.emil.taskmanager.listeners.ICreateTaskListener;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ProfilePropertyFragment.OnFragmentInteractionListener} interface
+ * {@link CreateTriggerFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ProfilePropertyFragment#newInstance} factory method to
+ * Use the {@link CreateTriggerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfilePropertyFragment extends Fragment {
-
+public class CreateTriggerFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String TITLE = "title";
-    private static final String VALUE = "value";
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mTitle;
-    private String mValue;
+    private String mParam1;
+    private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private ICreateTaskListener mListener;
 
-    public ProfilePropertyFragment() {
+    public CreateTriggerFragment() {
         // Required empty public constructor
     }
 
@@ -41,16 +40,16 @@ public class ProfilePropertyFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param title Parameter 1.
-     * @param value Parameter 2.
-     * @return A new instance of fragment ProfilePropertyFragment.
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment CreateTriggerFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProfilePropertyFragment newInstance(String title, String value) {
-        ProfilePropertyFragment fragment = new ProfilePropertyFragment();
+    public static CreateTriggerFragment newInstance(String param1, String param2) {
+        CreateTriggerFragment fragment = new CreateTriggerFragment();
         Bundle args = new Bundle();
-        args.putString(TITLE, title);
-        args.putString(VALUE, value);
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,39 +58,30 @@ public class ProfilePropertyFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mTitle = getArguments().getString(TITLE);
-            mValue = getArguments().getString(VALUE);
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_profile_property, container, false);
-
-        TextView titleText = (TextView) view.findViewById(R.id.profile_property_title);
-        titleText.setText(mTitle);
-
-        TextView valueText = (TextView) view.findViewById(R.id.profile_property_value);
-        valueText.setText(mValue);
-
         // Inflate the layout for this fragment
-        return view;
+        return inflater.inflate(R.layout.fragment_create_trigger, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+           // mListener.onFragmentInteraction(uri);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof ICreateTaskListener) {
+            mListener = (ICreateTaskListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -118,5 +108,4 @@ public class ProfilePropertyFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 }
