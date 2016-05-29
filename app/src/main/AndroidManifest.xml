@@ -14,7 +14,7 @@
             android:value="task_manager.db" />
         <meta-data
             android:name="VERSION"
-            android:value="2" />
+            android:value="4" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
@@ -32,17 +32,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.TaskViewActivity"
             android:label="@string/title_activity_task_view"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".activities.CreateTaskActivity"
             android:label="@string/title_activity_task_create"
             android:parentActivityName=".activities.TaskViewActivity" />
-
         <activity
             android:name=".activities.ProfileViewActivity"
             android:label="@string/title_activity_profile_view"
@@ -55,9 +52,15 @@
 
         <activity
             android:name=".activities.TaskDetailsActivity"
-            android:label="@string/title_activity_task_details"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.TaskViewActivity"></activity>
+            android:label="Details"
+            android:parentActivityName=".activities.TaskViewActivity"/>
+
+        <receiver android:name=".activities.AlarmReceiver"></receiver>
+
+        <service
+            android:name=".NotificationService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

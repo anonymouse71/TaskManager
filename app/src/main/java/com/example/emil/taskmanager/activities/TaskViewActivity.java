@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.emil.taskmanager.entities.Task;
+import com.example.emil.taskmanager.entities.TaskPriority;
 import com.example.emil.taskmanager.fragments.IListFragment;
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.fragments.TaskFragment;
@@ -40,21 +41,17 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
         List<Task> tasks = Task.listAll(Task.class);
         List<IListFragment> fragments = new ArrayList<>();
 
-        for (Task task : tasks) {
-            fragments.add(TaskFragment.newInstance(task));
-        }
-
-        final TaskListAdapter adapter = new TaskListAdapter(this, R.layout.fragment_task, fragments);
+        final TaskListAdapter adapter = new TaskListAdapter(this, R.layout.fragment_task, tasks);
 
         listView.setAdapter(adapter);
         listAdapter = adapter;
     }
 
     public void NewTaskBtn(View v) {
-        Task task = new Task("Test", "Test");
+        Task task = new Task("Test", "Test", TaskPriority.Low);
         Task.save(task);
 
-        listAdapter.add(TaskFragment.newInstance(task));
+        listAdapter.add(task);
         listAdapter.notifyDataSetChanged();
     }
 
@@ -73,11 +70,11 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
     }
 
     @Override
-    public void DeleteTask(IListFragment sender, Task task) {
+    public void DeleteTask( Task task) {
         task = Task.findById(Task.class, task.getId());
         Task.delete(task);
 
-        listAdapter.remove(sender);
+        listAdapter.remove(task);
     }
 
     /**

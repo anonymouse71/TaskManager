@@ -6,12 +6,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.entities.Task;
+import com.example.emil.taskmanager.entities.TaskPriority;
 import com.example.emil.taskmanager.listeners.ICreateTaskListener;
+
+import java.io.Serializable;
 
 
 /**
@@ -22,17 +28,16 @@ import com.example.emil.taskmanager.listeners.ICreateTaskListener;
  * Use the {@link TaskCreateFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TaskCreateFragment extends Fragment {
+public class TaskCreateFragment extends Fragment implements Serializable {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String TASK = "task";
 
     // TODO: Rename and change types of parameters
     private Task mTask;
+    private TaskPriority selectedPriority;
 
     private ICreateTaskListener mListener;
-    private TextView titleText;
-    private TextView descriptionText;
 
     public TaskCreateFragment() {
         // Required empty public constructor
@@ -69,10 +74,32 @@ public class TaskCreateFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_task_create, container, false);
 
 
-        titleText = (TextView) view.findViewById(R.id.CreateTask_Title);
+        final Spinner spinner = (Spinner) view.findViewById(R.id.CreateTask_Priority);
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(container.getContext(),
+                R.array.priorities, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedPriority = TaskPriority.valueOf((String) parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner.setSelection(mTask.getPriority().getValue());
+
+        final TextView titleText = (TextView) view.findViewById(R.id.CreateTask_Title);
         titleText.setText(mTask.getTitle());
 
-        descriptionText = (TextView) view.findViewById(R.id.CreateTask_Description);
+        final TextView descriptionText = (TextView) view.findViewById(R.id.CreateTask_Description);
         descriptionText.setText(mTask.getDescription());
 
         Button saveBtn = (Button) view.findViewById(R.id.CreateTask_SaveBtn);
@@ -82,7 +109,7 @@ public class TaskCreateFragment extends Fragment {
                 String title = titleText.getText().toString();
                 String description = descriptionText.getText().toString();
 
-                mListener.savePressed(title,description);
+                mListener.savePressed(new Task(title,description,selectedPriority));
             }
         });
 
@@ -90,14 +117,6 @@ public class TaskCreateFragment extends Fragment {
         return  view;
     }
 
-    public void savePressed() {
-        if (mListener != null) {
-            String title = titleText.getText().toString();
-            String description = descriptionText.getText().toString();
-
-            mListener.savePressed(title,description);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {

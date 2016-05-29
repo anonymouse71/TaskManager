@@ -26,4 +26,9 @@
     <string name="profile_property_value">Value</string>
     <string name="title_activity_task_create">Add Task</string>
     <string name="title_activity_profile_view">Profile</string>
+    <string-array name="priorities">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
 </resources>

@@ -12,6 +12,6 @@ public interface ITaskViewListener {
 
     void ViewDetails(Task task);
 
-    void DeleteTask(IListFragment sender,Task task);
+    void DeleteTask(Task task);
 
 }

@@ -1,25 +1,56 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="60dp"
     tools:context=".fragments.TaskFragment"
-    android:id="@+id/TaskFragmentMain">
+    android:id="@+id/TaskFragmentMain"
+             android:clickable="true"
+             android:background="#ffffff"
+             android:visibility="visible">
 
     <!-- TODO: Update blank fragment layout -->
 
     <RelativeLayout
-        android:layout_width="40dp"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="#46dc20"
+        android:layout_marginRight="80dp"
+        android:clickable="true">
+
+        <ImageButton
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/imageButton"
+            android:layout_alignTop="@+id/switch1"
+            android:layout_alignLeft="@+id/EditTaskBtn"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="false"
+            android:src="@drawable/check_mark_icon"
+            android:background="#00ffff00"
+            android:tint="#eeeeee"
+            android:contentDescription="Delete"
+            android:layout_centerInParent="true"
+            android:clickable="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="80dp"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:background="#304ffe"
         android:layout_gravity="right"
-        android:layout_marginRight="40dp">
+        android:layout_marginRight="80dp"
+        android:clickable="true">
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:id="@+id/Task_Edit_Btn"
             android:layout_alignTop="@+id/switch1"
             android:layout_alignLeft="@+id/EditTaskBtn"
@@ -28,23 +59,26 @@
             android:layout_alignParentEnd="false"
             android:src="@android:drawable/ic_menu_edit"
             android:background="#00ffff00"
-            android:tint="#eeeeee"
+            android:tint="#ffffff"
             android:contentDescription="Delete"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:clickable="true"
+            android:tintMode="multiply"/>
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="40dp"
+        android:layout_width="80dp"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:background="#d50000"
-        android:layout_gravity="right">
+        android:layout_gravity="right"
+        android:clickable="true">
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:id="@+id/Task_Delete_Btn"
             android:layout_alignTop="@+id/switch1"
             android:layout_alignLeft="@+id/EditTaskBtn"
@@ -53,28 +87,31 @@
             android:layout_alignParentEnd="false"
             android:src="@android:drawable/ic_menu_delete"
             android:background="#00ffff00"
-            android:tint="#eeeeee"
+            android:tint="#ffffff"
             android:contentDescription="Delete"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:clickable="true"
+            android:tintMode="multiply"
+            android:visibility="visible"/>
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
         android:id="@+id/Fragment_Overlay"
         android:visibility="visible"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:background="#ffffff"
+        android:layout_gravity="left|center_vertical"
+        android:clickable="true"
+        android:contextClickable="false">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Take out the trash"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
             android:textColor="#525252"
             android:id="@+id/Task_Title" />
 
@@ -91,16 +128,31 @@
             android:layout_alignLeft="@+id/Task_Title"
             android:layout_alignStart="@+id/Task_Title" />
 
-        <Switch
-            android:layout_width="53dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/switch1"
-            android:layout_gravity="right|center_vertical"
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="0 Triggers"
+            android:id="@+id/Task_TriggerCount"
+            android:background="@drawable/circle_bg"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="#424242"
+            android:textSize="8dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="24dp"
-            android:layout_marginEnd="24dp" />
+            android:layout_marginRight="17dp"
+            android:layout_marginEnd="17dp"/>
+
+        <FrameLayout
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="#2acc27"
+            android:id="@+id/Task_Priority_Indicator"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+        </FrameLayout>
 
     </RelativeLayout>
 

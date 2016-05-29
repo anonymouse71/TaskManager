@@ -3,87 +3,164 @@ package com.example.emil.taskmanager.adapters;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.example.emil.taskmanager.R;
+import com.example.emil.taskmanager.entities.Task;
+import com.example.emil.taskmanager.utils.AnimationUtil;
 import com.example.emil.taskmanager.utils.FragmentType;
 import com.example.emil.taskmanager.listeners.ITaskViewListener;
 import com.example.emil.taskmanager.fragments.IListFragment;
 import com.example.emil.taskmanager.fragments.TaskFragment;
+import com.example.emil.taskmanager.utils.PriorityColors;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by Administrator on 5/10/2016.
  */
-public class TaskListAdapter extends ArrayAdapter<IListFragment> {
+public class TaskListAdapter extends ArrayAdapter<Task> {
 
-    private List<IListFragment> fragments;
+    private List<Task> fragments;
     private Context context;
     private ITaskViewListener taskView;
 
-    public TaskListAdapter(Context context, int resource, List<IListFragment> objects) {
+    public TaskListAdapter(Context context, int resource, List<Task> objects) {
         super(context, resource, objects);
         fragments = objects;
         this.context = context;
+        taskView = (ITaskViewListener) context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        /*//Reuse View if possible
-        if (convertView != null && canConvertView(position, convertView)) {
-            return convertView;
-        }*/
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_task, parent, false);
+
+            Animation fadeIn = new AlphaAnimation(0, 1);
+            fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
+            fadeIn.setDuration(300);
+            convertView.setAnimation(fadeIn);
+        }
 
         //Create new Fragment
-        Fragment fragment = (Fragment) fragments.get(position);
+        final Task task = (Task) fragments.get(position);
 
-        fragment.onCreate(null);
-        fragment.onAttach(context);
-        View fragmentView = fragment.onCreateView(inflater, parent, null);
+        TextView triggerCount = (TextView) convertView.findViewById(R.id.Task_TriggerCount);
+        triggerCount.setText(task.getTriggers().size() + " Trigger");
+
+        TextView titleText = (TextView) convertView.findViewById(R.id.Task_Title);
+        titleText.setText(task.getTitle());
+
+        FrameLayout priorityBar = (FrameLayout) convertView.findViewById(R.id.Task_Priority_Indicator);
+        priorityBar.setBackgroundColor(PriorityColors.getColor(task.getPriority()));
+
+        ImageButton btnEdit = (ImageButton) convertView.findViewById(R.id.Task_Edit_Btn);
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                taskView.EditTask(task);
+            }
+        });
+
+        final RelativeLayout fragmentOverlay = (RelativeLayout) convertView.findViewById(R.id.Fragment_Overlay);
+
+        fragmentOverlay.animate()
+                .translationX(0)
+                .setDuration(0)
+                .start();
 
 
-        Animation fadeIn = new AlphaAnimation(0, 1);
-        fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
-        fadeIn.setDuration(300);
+        fragmentOverlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (task.isMenuOpen()){
+                    AnimationUtil.swipeOpen(fragmentOverlay, context, 0);
+                    task.setMenuOpen(false);
+                }else {
+                    taskView.ViewDetails(task);
+                }
+            }
+        });
 
-        fragmentView.setAnimation(fadeIn);
+        fragmentOverlay.setOnTouchListener(handleTouch(task));
 
-        return fragmentView;
+        ImageButton deleteBtn = (ImageButton) convertView.findViewById(R.id.Task_Delete_Btn);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                taskView.DeleteTask(task);
+            }
+        });
+
+
+
+
+        return convertView;
     }
 
-    /**
-     * Returns true if View can be reused, false otherwise
-     *
-     * @param position
-     * @param convertView
-     * @return
-     */
-    private boolean canConvertView(int position, View convertView) {
-        //Determine View type
-        FragmentType type = (FragmentType) convertView.getTag();
-        IListFragment iListFragment = fragments.get(position);
 
-        //If old View and new View is same type
-        if (iListFragment.getFragmentType() == type) {
-            switch (type) {
-                case Task:
-                    TaskFragment taskFragment = (TaskFragment) iListFragment;
-                    taskFragment.onCreate(null);
-                    taskFragment.UpdateData(convertView);
-                    return true;
-                case Seperator:
-                    return true;
+
+    @Override
+    public void notifyDataSetChanged() {
+
+
+        super.notifyDataSetChanged();
+    }
+
+    private float x1, x2;
+
+    private View.OnTouchListener handleTouch(final Task task) {
+        return new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        x1 = event.getX();
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                    case MotionEvent.ACTION_UP:
+                        x2 = event.getX();
+                        float deltaX = x2 - x1;
+
+                        RelativeLayout fragmentOverlay = (RelativeLayout) v.findViewById(R.id.Fragment_Overlay);
+                        if (DetermineSwipeDirection(deltaX, fragmentOverlay,task))
+                            return true;
+                        break;
+                }
+                return false;
             }
+        };
+    }
+
+
+    private final int MIN_DISTANCE = 20;
+
+    private boolean DetermineSwipeDirection(float deltaX, RelativeLayout layout, Task task) {
+        if (Math.abs(deltaX) > MIN_DISTANCE) {
+            // Left to Right swipe action
+            if (x2 > x1)
+                AnimationUtil.swipeOpen(layout, context, 80);
+            else
+                AnimationUtil.swipeOpen(layout, context, -160);
+
+            task.setMenuOpen(true);
+            return true;
         }
         return false;
     }
-
 }
 

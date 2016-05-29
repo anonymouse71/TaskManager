@@ -1,6 +1,8 @@
 package com.example.emil.taskmanager.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,12 +18,15 @@ import com.example.emil.taskmanager.fragments.LoginFragment;
 import com.example.emil.taskmanager.fragments.RegisterFragment;
 import com.example.emil.taskmanager.fragments.TaskCreateFragment;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 5/16/2016.
  */
-public class CreateTaskPagerAdapter extends PagerAdapter {
+public class CreateTaskPagerAdapter extends PagerAdapter implements Serializable {
+
+
 
     private final List<Fragment> fragments;
     private Context context;
@@ -31,7 +36,17 @@ public class CreateTaskPagerAdapter extends PagerAdapter {
         this.task = task;
         this.fragments = fragments;
         this.context = context;
+
     }
+
+    public void add(Fragment fragment){
+        fragments.add(fragment);
+    }
+
+    public void remove(int position){
+        fragments.remove(position);
+    }
+
 
     @Override
     public int getCount() {
@@ -62,6 +77,7 @@ public class CreateTaskPagerAdapter extends PagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
     }
+
 
     @Override
     public boolean isViewFromObject(View view, Object object) {

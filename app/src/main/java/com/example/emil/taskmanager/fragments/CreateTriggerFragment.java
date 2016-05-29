@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.example.emil.taskmanager.R;
-import com.example.emil.taskmanager.TriggerButtonFragment;
+import com.example.emil.taskmanager.TriggerType;
 import com.example.emil.taskmanager.adapters.TriggerButton;
 import com.example.emil.taskmanager.adapters.TriggerViewAdapter;
-import com.example.emil.taskmanager.listeners.ICreateTaskListener;
 import com.example.emil.taskmanager.listeners.ITriggerButtonListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +28,7 @@ import java.util.List;
  * Use the {@link CreateTriggerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CreateTriggerFragment extends Fragment implements ITriggerButtonListener {
+public class CreateTriggerFragment extends Fragment implements ITriggerButtonListener, Serializable {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -59,6 +59,7 @@ public class CreateTriggerFragment extends Fragment implements ITriggerButtonLis
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -69,6 +70,7 @@ public class CreateTriggerFragment extends Fragment implements ITriggerButtonLis
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -77,7 +79,6 @@ public class CreateTriggerFragment extends Fragment implements ITriggerButtonLis
         View view = inflater.inflate(R.layout.fragment_create_trigger, container, false);
 
         GridView gridView = (GridView) view.findViewById(R.id.TriggerGridView);
-
         List<TriggerButton> triggerButtonFragments = new ArrayList<>();
 
         triggerButtonFragments.add(new TriggerButton(R.drawable.alarm_icon, "Alarm"));
@@ -117,8 +118,8 @@ public class CreateTriggerFragment extends Fragment implements ITriggerButtonLis
 
 
     @Override
-    public void Click() {
-        mListener.Click();
+    public void triggerButtonPressed(TriggerType triggerType) {
+        mListener.triggerButtonPressed(triggerType);
     }
 
 

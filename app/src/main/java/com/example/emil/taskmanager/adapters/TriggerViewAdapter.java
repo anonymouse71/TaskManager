@@ -2,7 +2,6 @@ package com.example.emil.taskmanager.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.emil.taskmanager.R;
-import com.example.emil.taskmanager.TriggerButtonFragment;
+import com.example.emil.taskmanager.TriggerType;
 import com.example.emil.taskmanager.listeners.ITriggerButtonListener;
 
 import java.util.List;
@@ -51,7 +50,7 @@ public class TriggerViewAdapter extends ArrayAdapter<TriggerButton> {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.Click();
+                listener.triggerButtonPressed(TriggerType.Alarm);
             }
         });
 
