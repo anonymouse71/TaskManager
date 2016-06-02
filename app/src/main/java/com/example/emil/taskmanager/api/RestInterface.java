@@ -1,6 +1,7 @@
 package com.example.emil.taskmanager.api;
 
 import com.example.emil.taskmanager.dto.TaskDTO;
+import com.example.emil.taskmanager.dto.UserDTO;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-public interface RestTaskInterface {
+public interface RestInterface {
 
     /**
      * Retrieves a list of all tasks in the database.
@@ -53,5 +54,12 @@ public interface RestTaskInterface {
      */
     @DELETE("tasks/{id}")
     Call<TaskDTO> deleteTask(@Path("id") String id);
+
+    /**
+     * Checks if the username and password matches
+     * @return User Returns user object if it's a match.
+     */
+    @POST
+    Call<List<UserDTO>> checkUser();
 
 }
