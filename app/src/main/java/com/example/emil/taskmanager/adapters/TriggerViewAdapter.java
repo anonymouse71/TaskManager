@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.TriggerType;
+import com.example.emil.taskmanager.entities.TriggerButton;
 import com.example.emil.taskmanager.listeners.ITriggerButtonListener;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class TriggerViewAdapter extends ArrayAdapter<TriggerButton> {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         //Create new Fragment
-        TriggerButton button = getItem(position);
+        final TriggerButton button = getItem(position);
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_trigger_button, parent, false);
@@ -50,7 +51,7 @@ public class TriggerViewAdapter extends ArrayAdapter<TriggerButton> {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.triggerButtonPressed(TriggerType.Alarm);
+                listener.triggerButtonPressed(button.getType());
             }
         });
 

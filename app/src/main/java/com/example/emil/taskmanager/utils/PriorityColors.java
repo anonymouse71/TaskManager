@@ -11,11 +11,11 @@ public class PriorityColors {
     public static int getColor(TaskPriority priority){
         switch (priority) {
             case Low:
-                return Color.GREEN;
+                return Color.parseColor("#4CAF50");
             case Medium:
-                return Color.YELLOW;
+                return Color.parseColor("#FFEB3B");
             case High:
-                return Color.RED;
+                return Color.parseColor("#f44336");
         }
         return Color.WHITE;
     }

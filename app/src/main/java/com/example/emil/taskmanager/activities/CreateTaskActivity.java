@@ -11,7 +11,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.emil.taskmanager.AlarmTriggerFragment;
+import com.example.emil.taskmanager.DateTriggerFragment;
+import com.example.emil.taskmanager.fragments.AlarmTriggerFragment;
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.TriggerType;
 import com.example.emil.taskmanager.adapters.CreateTaskPagerAdapter;
@@ -50,7 +51,7 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             currentTask = Task.findById(Task.class, (long) id);
             setTitle("Edit Task");
         } else {
-            currentTask = new Task("","", TaskPriority.Low);
+            currentTask = new Task(null,null, TaskPriority.Low);
         }
 
         alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
@@ -71,7 +72,10 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
                     triggers.add(trigger);
                     switch (trigger.getCategory()) {
                         case Alarm:
-                            fragments.add(AlarmTriggerFragment.newInstance(trigger.getDate().get(Calendar.HOUR_OF_DAY), trigger.getDate().get(Calendar.MINUTE),trigger));
+                            fragments.add(AlarmTriggerFragment.newInstance(trigger));
+                            break;
+                        case Date:
+                            fragments.add(DateTriggerFragment.newInstance(trigger));
                             break;
                     }
                 }
@@ -86,7 +90,10 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             for (AlarmTrigger trigger : triggers){
                 switch (trigger.getCategory()) {
                     case Alarm:
-                        fragments.add(AlarmTriggerFragment.newInstance(trigger.getDate().get(Calendar.HOUR_OF_DAY), trigger.getDate().get(Calendar.MINUTE), trigger));
+                        fragments.add(AlarmTriggerFragment.newInstance(trigger));
+                        break;
+                    case Date:
+                        fragments.add(DateTriggerFragment.newInstance(trigger));
                         break;
                 }
             }
@@ -161,11 +168,11 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             intent.putExtra("Title","Alarm");
             intent.putExtra("Message", message);
             intent.putExtra("Id",tempTask.getId());
-            PendingIntent alarmIntent = PendingIntent.getBroadcast(this, trigger.getId().intValue(), intent, 0);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(this, trigger.getId().intValue(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             Calendar calendar = trigger.getDate();
 
-            if (!trigger.isRepeating()) {
+            if (trigger.isRepeating()) {
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), trigger.getInterval(), alarmIntent);
             } else {
                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
@@ -177,9 +184,9 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
     private Fragment createFragment(TriggerType triggerType) {
         switch (triggerType) {
             case Alarm:
-                return AlarmTriggerFragment.newInstance(0, 0,new AlarmTrigger(null,true,AlarmManager.INTERVAL_DAY,triggerType));
+                return AlarmTriggerFragment.newInstance(new AlarmTrigger(null,true,AlarmManager.INTERVAL_DAY,triggerType));
             case Date:
-                return null;
+                return DateTriggerFragment.newInstance(new AlarmTrigger(null,false,0,triggerType));
         }
         return null;
     }
@@ -198,6 +205,8 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
 
     @Override
     public void saveTrigger(AlarmTrigger trigger) {
+
+        viewPager.setCurrentItem(0);
 
         if (triggers.contains(trigger)){
             triggers.set(triggers.indexOf(trigger), trigger);

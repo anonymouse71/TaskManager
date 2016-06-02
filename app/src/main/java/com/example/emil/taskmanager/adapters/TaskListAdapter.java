@@ -112,15 +112,6 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         return convertView;
     }
 
-
-
-    @Override
-    public void notifyDataSetChanged() {
-
-
-        super.notifyDataSetChanged();
-    }
-
     private float x1, x2;
 
     private View.OnTouchListener handleTouch(final Task task) {

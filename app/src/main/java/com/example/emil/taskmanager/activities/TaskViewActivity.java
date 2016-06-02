@@ -16,14 +16,18 @@ import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.fragments.TaskFragment;
 import com.example.emil.taskmanager.adapters.TaskListAdapter;
 import com.example.emil.taskmanager.listeners.ITaskViewListener;
+import com.example.emil.taskmanager.service.TaskService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class TaskViewActivity extends AppCompatActivity implements ITaskViewListener {
 
     private TaskListAdapter listAdapter;
     private ListView listView;
+    private List<Task> tasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +38,18 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
 
         listView = (ListView) findViewById(R.id.listView);
 
+        if (savedInstanceState != null){
+            tasks = (List<Task>) savedInstanceState.getSerializable("Data");
+        }
+
         startListView();
     }
 
     private void startListView() {
-        List<Task> tasks = Task.listAll(Task.class);
-        List<IListFragment> fragments = new ArrayList<>();
+        if (tasks == null){
+            tasks = Task.listAll(Task.class);
+        }
+
 
         final TaskListAdapter adapter = new TaskListAdapter(this, R.layout.fragment_task, tasks);
 
@@ -47,12 +57,51 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
         listAdapter = adapter;
     }
 
-    public void NewTaskBtn(View v) {
-        Task task = new Task("Test", "Test", TaskPriority.Low);
-        Task.save(task);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("Data", (Serializable) tasks);
+    }
 
-        listAdapter.add(task);
-        listAdapter.notifyDataSetChanged();
+    private boolean prioritySort;
+    private boolean nameSort;
+
+    public void SortAlphabetically(View v) {
+        listAdapter.sort(new Comparator<Task>() {
+            @Override
+            public int compare(Task lhs, Task rhs) {
+                return nameSort ?
+                        rhs.getTitle().compareToIgnoreCase(lhs.getTitle()) :
+                        lhs.getTitle().compareToIgnoreCase(rhs.getTitle());
+            }
+        });
+
+        nameSort = !nameSort;
+        prioritySort = false;
+    }
+
+    public void SortByPriority(View v){
+        listAdapter.sort(new Comparator<Task>() {
+            @Override
+            public int compare(Task lhs, Task rhs) {
+                if (prioritySort){
+                    if (lhs.getPriority().getValue() <= rhs.getPriority().getValue()) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }else {
+                    if (lhs.getPriority().getValue() >= rhs.getPriority().getValue()) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }
+            }
+        });
+
+        prioritySort = !prioritySort;
+        nameSort = false;
     }
 
     @Override
@@ -70,11 +119,12 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
     }
 
     @Override
-    public void DeleteTask( Task task) {
-        task = Task.findById(Task.class, task.getId());
-        Task.delete(task);
+    public void DeleteTask(Task task) {
+        Task tempTask = Task.findById(Task.class, task.getId());
+        Task.delete(tempTask);
 
-        listAdapter.remove(task);
+        tasks.remove(task);
+        listAdapter.notifyDataSetChanged();
     }
 
     /**

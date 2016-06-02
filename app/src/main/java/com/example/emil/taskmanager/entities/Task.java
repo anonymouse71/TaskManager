@@ -65,4 +65,6 @@ public class Task extends SugarRecord implements Serializable {
     public void setMenuOpen(boolean menuOpen) {
         this.menuOpen = menuOpen;
     }
+
+
 }

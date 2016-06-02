@@ -1,7 +1,6 @@
 package com.example.emil.taskmanager;
 
 import android.annotation.TargetApi;
-import android.app.AlarmManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
@@ -11,38 +10,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import com.example.emil.taskmanager.entities.AlarmTrigger;
+import com.example.emil.taskmanager.listeners.ITriggerButtonListener;
 import com.example.emil.taskmanager.listeners.ITriggerListener;
 
-import java.io.Serializable;
 import java.util.Calendar;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AlarmTriggerFragment.OnFragmentInteractionListener} interface
+ * {@link DateTriggerFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AlarmTriggerFragment#newInstance} factory method to
+ * Use the {@link DateTriggerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AlarmTriggerFragment extends Fragment implements Serializable {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String HOUR = "hour";
-    private static final String MINUTE = "minute";
+public class DateTriggerFragment extends Fragment {
     private static final String TRIGGER = "trigger";
 
-    // TODO: Rename and change types of parameters
-    private int mHour;
-    private int mMinute;
     private AlarmTrigger mTrigger;
 
     private ITriggerListener mListener;
 
-    public AlarmTriggerFragment() {
+    public DateTriggerFragment() {
         // Required empty public constructor
     }
 
@@ -50,16 +43,14 @@ public class AlarmTriggerFragment extends Fragment implements Serializable {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param hour Parameter 1.
-     * @param minute Parameter 2.
-     * @return A new instance of fragment AlarmTriggerFragment.
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment DateTriggerFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AlarmTriggerFragment newInstance(int hour, int minute, AlarmTrigger trigger) {
-        AlarmTriggerFragment fragment = new AlarmTriggerFragment();
+    public static DateTriggerFragment newInstance(AlarmTrigger trigger) {
+        DateTriggerFragment fragment = new DateTriggerFragment();
         Bundle args = new Bundle();
-        args.putInt(HOUR, hour);
-        args.putInt(MINUTE, minute);
         args.putSerializable(TRIGGER, trigger);
         fragment.setArguments(args);
         return fragment;
@@ -69,45 +60,57 @@ public class AlarmTriggerFragment extends Fragment implements Serializable {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mHour = getArguments().getInt(HOUR);
-            mMinute = getArguments().getInt(MINUTE);
             mTrigger = (AlarmTrigger) getArguments().getSerializable(TRIGGER);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_alarm_trigger, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_date_trigger, container, false);
 
-        final TimePicker timePicker = (TimePicker) view.findViewById(R.id.TriggerTimePicker);
-        timePicker.setCurrentHour(mHour);
-        timePicker.setCurrentMinute(mMinute);
+        final DatePicker datePicker = (DatePicker) view.findViewById(R.id.DateTrigger_DatePicker);
+        final TimePicker timePicker = (TimePicker) view.findViewById(R.id.DateTrigger_TimePicker);
 
-        Button btn = (Button) view.findViewById(R.id.AlarmTrigger_SaveBtn);
+        if (mTrigger.getDate() != null){
+            Calendar cal = mTrigger.getDate();
+            int year=cal.get(Calendar.YEAR);
+            int month=cal.get(Calendar.MONTH);
+            int day=cal.get(Calendar.DAY_OF_MONTH);
+            int hour=cal.get(Calendar.HOUR_OF_DAY);
+            int min=cal.get(Calendar.MINUTE);
+
+            datePicker.updateDate(year,month,day);
+            timePicker.setCurrentHour(hour);
+            timePicker.setCurrentMinute(min);
+
+        }
+
+        Button btn = (Button) view.findViewById(R.id.DateTrigger_SaveBtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
 
+                int day = datePicker.getDayOfMonth();
+                int month = datePicker.getMonth();
+                int year =  datePicker.getYear();
+
                 Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.set(year, month, day);
                 calendar.set(Calendar.HOUR, timePicker.getCurrentHour());
                 calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
 
                 mTrigger.setDate(calendar);
+                mTrigger.setRepeating(false);
                 mListener.saveTrigger(mTrigger);
             }
         });
 
+        // Inflate the layout for this fragment
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-           // mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -116,7 +119,7 @@ public class AlarmTriggerFragment extends Fragment implements Serializable {
             mListener = (ITriggerListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement ITriggerListener");
         }
     }
 
@@ -125,5 +128,4 @@ public class AlarmTriggerFragment extends Fragment implements Serializable {
         super.onDetach();
         mListener = null;
     }
-
 }

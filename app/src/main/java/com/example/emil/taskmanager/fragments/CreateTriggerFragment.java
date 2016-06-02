@@ -11,7 +11,7 @@ import android.widget.GridView;
 
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.TriggerType;
-import com.example.emil.taskmanager.adapters.TriggerButton;
+import com.example.emil.taskmanager.entities.TriggerButton;
 import com.example.emil.taskmanager.adapters.TriggerViewAdapter;
 import com.example.emil.taskmanager.listeners.ITriggerButtonListener;
 
@@ -81,8 +81,8 @@ public class CreateTriggerFragment extends Fragment implements ITriggerButtonLis
         GridView gridView = (GridView) view.findViewById(R.id.TriggerGridView);
         List<TriggerButton> triggerButtonFragments = new ArrayList<>();
 
-        triggerButtonFragments.add(new TriggerButton(R.drawable.alarm_icon, "Alarm"));
-        triggerButtonFragments.add(new TriggerButton(R.drawable.date_icon, "Date"));
+        triggerButtonFragments.add(new TriggerButton(R.drawable.alarm_icon, "Alarm",TriggerType.Alarm));
+        triggerButtonFragments.add(new TriggerButton(R.drawable.date_icon, "Date",TriggerType.Date));
 
         TriggerViewAdapter adapter = new TriggerViewAdapter(inflater.getContext(),R.layout.fragment_trigger_button,triggerButtonFragments,this);
         adapter.notifyDataSetChanged();
