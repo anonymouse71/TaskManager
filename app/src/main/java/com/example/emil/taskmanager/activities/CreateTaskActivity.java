@@ -48,7 +48,7 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
         Serializable id = getIntent().getSerializableExtra("Id");
         if (id != null) {
             currentTask = Task.findById(Task.class, (long) id);
-            setTitle("Edit Task");
+            setTitle("Edit TaskDTO");
         } else {
             currentTask = new Task("","", TaskPriority.Low);
         }
@@ -64,7 +64,7 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
 
         if (savedInstanceState == null) {
 
-            List<AlarmTrigger> triggersTemp = currentTask.getTriggers();
+            List<AlarmTrigger> triggersTemp = currentTask.getTriggerList();
 
             if (triggersTemp != null) {
                 for (AlarmTrigger trigger : triggersTemp) {
@@ -165,7 +165,7 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
 
             Calendar calendar = trigger.getDate();
 
-            if (!trigger.isRepeating()) {
+            if (!trigger.isRepeat()) {
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), trigger.getInterval(), alarmIntent);
             } else {
                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);

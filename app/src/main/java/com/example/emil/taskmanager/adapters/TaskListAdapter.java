@@ -1,6 +1,5 @@
 package com.example.emil.taskmanager.adapters;
 
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,14 +17,9 @@ import android.widget.TextView;
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.entities.Task;
 import com.example.emil.taskmanager.utils.AnimationUtil;
-import com.example.emil.taskmanager.utils.FragmentType;
 import com.example.emil.taskmanager.listeners.ITaskViewListener;
-import com.example.emil.taskmanager.fragments.IListFragment;
-import com.example.emil.taskmanager.fragments.TaskFragment;
 import com.example.emil.taskmanager.utils.PriorityColors;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -60,7 +54,7 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         final Task task = (Task) fragments.get(position);
 
         TextView triggerCount = (TextView) convertView.findViewById(R.id.Task_TriggerCount);
-        triggerCount.setText(task.getTriggers().size() + " Trigger");
+        triggerCount.setText(task.getTriggerList().size() + " Trigger");
 
         TextView titleText = (TextView) convertView.findViewById(R.id.Task_Title);
         titleText.setText(task.getTitle());
