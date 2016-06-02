@@ -214,9 +214,11 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             call.enqueue(new Callback<TaskDTO>() {
                 @Override
                 public void onResponse(Call<TaskDTO> call, Response<TaskDTO> response) {
-                    Toast.makeText(context, "HEY", Toast.LENGTH_LONG).show();
-                    tempTask.setApiId(response.body().get_id());
-                    Task.save(tempTask);
+                    if (response.isSuccessful()) {
+                        Toast.makeText(context, "Task Created", Toast.LENGTH_LONG).show();
+                        tempTask.setApiId(response.body().get_id());
+                        Task.save(tempTask);
+                    }
                 }
 
                 @Override
@@ -228,11 +230,13 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
         else {
             TaskDTO taskDTO = new TaskDTO("574b3692b8a61111003260c1", tempTask.getTitle(), tempTask.getDescription(), alarmTriggerDTOs, tempTask.getApiId());
             RestTask rest = new RestTask();
-            Call<TaskDTO> call = rest.service.editTask(tempTask.getApiId(),taskDTO);
+            Call<TaskDTO> call = rest.service.editTask(tempTask.getApiId(), taskDTO);
             call.enqueue(new Callback<TaskDTO>() {
                 @Override
                 public void onResponse(Call<TaskDTO> call, Response<TaskDTO> response) {
-
+                    if (response.isSuccessful()){
+                        Toast.makeText(context, "Task Edited", Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 @Override
