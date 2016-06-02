@@ -62,7 +62,7 @@ public class RestTask {
     }
 
     public Call<TaskDTO> editTask(int id, TaskDTO task) {
-        return service.editTask(id, task);
+        return null; //service.editTask(id, task);
     }
 
     /**

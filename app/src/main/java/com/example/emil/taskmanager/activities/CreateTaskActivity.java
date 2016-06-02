@@ -145,7 +145,7 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
 
     @Override
     public void savePressed(Task task) {
-        Task tempTask;
+        final Task tempTask;
 
         //If we are creating a new task
         if (currentTask.getTitle() == null) {
@@ -207,21 +207,40 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
 
         final Context context = this;
 
-        TaskDTO taskDTO = new TaskDTO("12341234", tempTask.getTitle(), tempTask.getDescription(),alarmTriggerDTOs );
-        RestTask rest = new RestTask();
-        Call<TaskDTO> call = rest.service.createTask(taskDTO);
-        call.enqueue(new Callback<TaskDTO>() {
-            @Override
-            public void onResponse(Call<TaskDTO> call, Response<TaskDTO> response) {
-                Toast.makeText(context,"HEY",Toast.LENGTH_LONG).show();
-            }
+        if (currentTask.getTitle() == null) {
+            TaskDTO taskDTO = new TaskDTO("574b3692b8a61111003260c1", tempTask.getTitle(), tempTask.getDescription(), alarmTriggerDTOs, tempTask.getApiId());
+            RestTask rest = new RestTask();
+            Call<TaskDTO> call = rest.service.createTask(taskDTO);
+            call.enqueue(new Callback<TaskDTO>() {
+                @Override
+                public void onResponse(Call<TaskDTO> call, Response<TaskDTO> response) {
+                    Toast.makeText(context, "HEY", Toast.LENGTH_LONG).show();
+                    tempTask.setApiId(response.body().get_id());
+                    Task.save(tempTask);
+                }
 
-            @Override
-            public void onFailure(Call<TaskDTO> call, Throwable t) {
+                @Override
+                public void onFailure(Call<TaskDTO> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        }
+        else {
+            TaskDTO taskDTO = new TaskDTO("574b3692b8a61111003260c1", tempTask.getTitle(), tempTask.getDescription(), alarmTriggerDTOs, tempTask.getApiId());
+            RestTask rest = new RestTask();
+            Call<TaskDTO> call = rest.service.editTask(tempTask.getApiId(),taskDTO);
+            call.enqueue(new Callback<TaskDTO>() {
+                @Override
+                public void onResponse(Call<TaskDTO> call, Response<TaskDTO> response) {
 
+                }
+
+                @Override
+                public void onFailure(Call<TaskDTO> call, Throwable t) {
+
+                }
+            });
+        }
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.emil.taskmanager.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.emil.taskmanager.api.RestTask;
+import com.example.emil.taskmanager.dto.TaskDTO;
 import com.example.emil.taskmanager.entities.Task;
 import com.example.emil.taskmanager.entities.TaskPriority;
 import com.example.emil.taskmanager.fragments.IListFragment;
@@ -22,6 +26,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TaskViewActivity extends AppCompatActivity implements ITaskViewListener {
 
@@ -120,6 +128,23 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
 
     @Override
     public void DeleteTask(Task task) {
+
+        final Context context = this;
+
+        RestTask rest = new RestTask();
+        Call<TaskDTO> call = rest.service.deleteTask(task.getApiId());
+        call.enqueue(new Callback<TaskDTO>() {
+            @Override
+            public void onResponse(Call<TaskDTO> call, Response<TaskDTO> response) {
+                Toast.makeText(context,"Task Deleted",Toast.LENGTH_LONG);
+            }
+
+            @Override
+            public void onFailure(Call<TaskDTO> call, Throwable t) {
+
+            }
+        });
+
         Task tempTask = Task.findById(Task.class, task.getId());
         Task.delete(tempTask);
 
