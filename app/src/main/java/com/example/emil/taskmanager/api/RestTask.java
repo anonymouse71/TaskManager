@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -30,6 +31,7 @@ public class RestTask {
 
         Call<List<TaskDTO>> taskList = service.getTasks();
         Response<List<TaskDTO>> response = null;
+
         try {
             response = taskList.execute();
             response.body();
