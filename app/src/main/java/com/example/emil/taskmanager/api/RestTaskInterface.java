@@ -36,7 +36,7 @@ public interface RestTaskInterface {
      * @return TaskDTO.
      */
     @PUT("tasks/{id}")
-    Call<TaskDTO> editTask(@Path("id") String id, TaskDTO task);
+    Call<TaskDTO> editTask(@Path("id") String id, @Body TaskDTO task);
 
     /**
      * Saves a task in the database.

@@ -185,8 +185,8 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
 
             Calendar calendar = trigger.getDate();
 
-            TimeZone tz = TimeZone.getTimeZone("UTC");
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+            TimeZone tz = TimeZone.getDefault();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'H:mm:ssZ");
             df.setTimeZone(tz);
 
             String isoDate = df.format(calendar.getTime());
