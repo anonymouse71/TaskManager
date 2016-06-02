@@ -14,8 +14,10 @@ public class Task extends SugarRecord implements Serializable {
     private String description;
     private TaskPriority priority;
 
+
     @Ignore
     private boolean menuOpen;
+
 
     public Task(String title, String description, TaskPriority priority) {
         this.title = title;
@@ -23,11 +25,12 @@ public class Task extends SugarRecord implements Serializable {
         this.priority = priority;
     }
 
+
     public Task() {
 
     }
 
-    public List<AlarmTrigger> getTriggers() {
+    public List<AlarmTrigger> getTriggerList() {
         if (getId() != null){
             return AlarmTrigger.find(AlarmTrigger.class, "task = ?", getId().toString());
         }
@@ -65,6 +68,5 @@ public class Task extends SugarRecord implements Serializable {
     public void setMenuOpen(boolean menuOpen) {
         this.menuOpen = menuOpen;
     }
-
 
 }

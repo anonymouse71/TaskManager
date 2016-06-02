@@ -1,11 +1,6 @@
 package com.example.emil.taskmanager.entities;
 
-import android.content.BroadcastReceiver;
-import android.os.Bundle;
-
-import com.example.emil.taskmanager.ITrigger;
 import com.example.emil.taskmanager.TriggerType;
-import com.example.emil.taskmanager.activities.AlarmReceiver;
 import com.orm.SugarRecord;
 
 import java.io.Serializable;
@@ -18,7 +13,7 @@ public class AlarmTrigger extends SugarRecord implements Serializable{
 
     private Calendar date;
 
-    private boolean repeating;
+    private boolean repeat;
 
     private long interval;
 
@@ -35,7 +30,7 @@ public class AlarmTrigger extends SugarRecord implements Serializable{
      */
     public AlarmTrigger(Calendar date, boolean repeating, long interval, TriggerType category) {
         this.date = date;
-        this.repeating = repeating;
+        this.repeat = repeating;
         this.interval = interval;
         this.category = category;
     }
@@ -58,12 +53,12 @@ public class AlarmTrigger extends SugarRecord implements Serializable{
         this.date = date;
     }
 
-    public boolean isRepeating() {
-        return repeating;
+    public boolean isRepeat() {
+        return repeat;
     }
 
-    public void setRepeating(boolean repeating) {
-        this.repeating = repeating;
+    public void setRepeat(boolean repeat) {
+        this.repeat = repeat;
     }
 
     public long getInterval() {

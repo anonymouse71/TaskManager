@@ -1,6 +1,6 @@
 package com.example.emil.taskmanager.api;
 
-import com.example.emil.taskmanager.entities.Task;
+import com.example.emil.taskmanager.dto.TaskDTO;
 
 import java.util.List;
 
@@ -15,42 +15,42 @@ public interface RestTaskInterface {
 
     /**
      * Retrieves a list of all tasks in the database.
-     * @return List<Task>.
+     * @return List<TaskDTO>.
      */
-    @GET("task")
-    Call<List<Task>> getTasks();
+    @GET("tasks")
+    Call<List<TaskDTO>> getTasks();
 
     /**
      * Retrieves a task from the database by ID.
      * @param id The ID of the task.
-     * @return Task.
+     * @return TaskDTO.
      */
-    @GET("task/{id}")
-    Call<Task> getTaskById(@Path("id") int id);
+    @GET("tasks/{id}")
+    Call<TaskDTO> getTaskById(@Path("id") int id);
 
     /**
      * Edits a task in the database.
      * @param id The ID of the task.
      * @param task The updated task.
-     * @return Task.
+     * @return TaskDTO.
      */
-    @PUT("task/{id}")
-    Call<Task> editTask(@Path("id") int id, Task task);
+    @PUT("tasks/{id}")
+    Call<TaskDTO> editTask(@Path("id") int id, TaskDTO task);
 
     /**
      * Saves a task in the database.
-     * @param task The Task to be created.
-     * @return Task.
+     * @param task The TaskDTO to be created.
+     * @return TaskDTO.
      */
-    @POST("task")
-    Call<Task> createTask(Task task);
+    @POST("tasks")
+    Call<TaskDTO> createTask(TaskDTO task);
 
     /**
      * Deletes a task in the database.
      * @param id The ID of the task.
-     * @return Task.
+     * @return TaskDTO.
      */
-    @DELETE("task/{id}")
-    Call<Task> deleteTask(@Path("id") int id);
+    @DELETE("tasks/{id}")
+    Call<TaskDTO> deleteTask(@Path("id") int id);
 
 }
