@@ -49,7 +49,7 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
         Serializable id = getIntent().getSerializableExtra("Id");
         if (id != null) {
             currentTask = Task.findById(Task.class, (long) id);
-            setTitle("Edit TaskDTO");
+            setTitle("Edit Task");
         } else {
             currentTask = new Task(null,null, TaskPriority.Low);
         }

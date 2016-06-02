@@ -5,6 +5,7 @@ import com.example.emil.taskmanager.dto.TaskDTO;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -43,7 +44,7 @@ public interface RestTaskInterface {
      * @return TaskDTO.
      */
     @POST("tasks")
-    Call<TaskDTO> createTask(TaskDTO task);
+    Call<TaskDTO> createTask(@Body TaskDTO task);
 
     /**
      * Deletes a task in the database.
