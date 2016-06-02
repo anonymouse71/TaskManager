@@ -10,8 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.emil.taskmanager.DateTriggerFragment;
+import com.example.emil.taskmanager.api.RestTask;
+import com.example.emil.taskmanager.dto.AlarmTriggerDTO;
+import com.example.emil.taskmanager.dto.TaskDTO;
 import com.example.emil.taskmanager.fragments.AlarmTriggerFragment;
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.TriggerType;
@@ -26,9 +30,16 @@ import com.example.emil.taskmanager.listeners.ITriggerButtonListener;
 import com.example.emil.taskmanager.listeners.ITriggerListener;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CreateTaskActivity extends AppCompatActivity implements ICreateTaskListener, ITriggerButtonListener, ITriggerListener, Serializable {
 
@@ -51,7 +62,7 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             currentTask = Task.findById(Task.class, (long) id);
             setTitle("Edit Task");
         } else {
-            currentTask = new Task(null,null, TaskPriority.Low);
+            currentTask = new Task(null, null, TaskPriority.Low);
         }
 
         alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
@@ -87,7 +98,7 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
         } else {
             triggers = (List<AlarmTrigger>) savedInstanceState.getSerializable("data");
 
-            for (AlarmTrigger trigger : triggers){
+            for (AlarmTrigger trigger : triggers) {
                 switch (trigger.getCategory()) {
                     case Alarm:
                         fragments.add(AlarmTriggerFragment.newInstance(trigger));
@@ -156,8 +167,10 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             startActivity(intent);
         }
 
+        List<AlarmTriggerDTO> alarmTriggerDTOs = new ArrayList<>();
+
         //Save triggers
-        for (AlarmTrigger trigger : triggers){
+        for (AlarmTrigger trigger : triggers) {
             trigger.setTask(tempTask);
             AlarmTrigger.save(trigger);
 
@@ -165,13 +178,25 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
 
             String message = task.getTitle() == null ? "test" : task.getTitle();
 
-            intent.putExtra("Title","Alarm");
+            intent.putExtra("Title", "Alarm");
             intent.putExtra("Message", message);
-            intent.putExtra("Id",tempTask.getId());
+            intent.putExtra("Id", tempTask.getId());
             PendingIntent alarmIntent = PendingIntent.getBroadcast(this, trigger.getId().intValue(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             Calendar calendar = trigger.getDate();
 
+            TimeZone tz = TimeZone.getTimeZone("UTC");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+            df.setTimeZone(tz);
+
+            String isoDate = df.format(calendar.getTime());
+
+            alarmTriggerDTOs.add(new AlarmTriggerDTO(
+                    trigger.isRepeat(),
+                    isoDate,
+                    (int) trigger.getInterval(),
+                    trigger.getCategory().getValue()
+            ));
 
             if (trigger.isRepeat()) {
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), trigger.getInterval(), alarmIntent);
@@ -180,14 +205,32 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             }
         }
 
+        final Context context = this;
+
+        TaskDTO taskDTO = new TaskDTO("12341234", tempTask.getTitle(), tempTask.getDescription(),alarmTriggerDTOs );
+        RestTask rest = new RestTask();
+        Call<TaskDTO> call = rest.service.createTask(taskDTO);
+        call.enqueue(new Callback<TaskDTO>() {
+            @Override
+            public void onResponse(Call<TaskDTO> call, Response<TaskDTO> response) {
+                Toast.makeText(context,"HEY",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<TaskDTO> call, Throwable t) {
+
+            }
+        });
+
+
     }
 
     private Fragment createFragment(TriggerType triggerType) {
         switch (triggerType) {
             case Alarm:
-                return AlarmTriggerFragment.newInstance(new AlarmTrigger(null,true,AlarmManager.INTERVAL_DAY,triggerType));
+                return AlarmTriggerFragment.newInstance(new AlarmTrigger(null, true, AlarmManager.INTERVAL_DAY, triggerType));
             case Date:
-                return DateTriggerFragment.newInstance(new AlarmTrigger(null,false,0,triggerType));
+                return DateTriggerFragment.newInstance(new AlarmTrigger(null, false, 0, triggerType));
         }
         return null;
     }
@@ -209,9 +252,9 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
 
         viewPager.setCurrentItem(0);
 
-        if (triggers.contains(trigger)){
+        if (triggers.contains(trigger)) {
             triggers.set(triggers.indexOf(trigger), trigger);
-        }else {
+        } else {
             triggers.add(trigger);
         }
 

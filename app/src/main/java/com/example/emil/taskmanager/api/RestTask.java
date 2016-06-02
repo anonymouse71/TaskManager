@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestTask {
 
-    private RestTaskInterface service;
+    public RestTaskInterface service;
 
     public RestTask() {
         Retrofit retrofit = new Retrofit.Builder()

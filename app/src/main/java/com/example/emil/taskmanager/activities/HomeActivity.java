@@ -32,7 +32,7 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
 
         SynchronizerAsyncTask asyncTask = new SynchronizerAsyncTask();
 
-        asyncTask.execute();
+        //asyncTask.execute();
 
     }
 
