@@ -22,6 +22,10 @@ public class RestTask {
         service = retrofit.create(RestTaskInterface.class);
     }
 
+    /**
+     * Retrieves a list of all tasks in the database.
+     * @return List<TaskDTO>
+     */
     public List<TaskDTO> getTasks() {
 
         Call<List<TaskDTO>> taskList = service.getTasks();
@@ -36,8 +40,23 @@ public class RestTask {
 
     }
 
-    public Call<TaskDTO> getTaskById(int id) {
-        return service.getTaskById(id);
+    /**
+     * Retrieves a task from the database by ID.
+     * @param id The ID of the task.
+     * @return List<TaskDTO>
+     */
+    public TaskDTO getTaskById(int id) {
+
+        Call<TaskDTO> task = service.getTaskById(id);
+        Response<TaskDTO> response = null;
+        try {
+            response = task.execute();
+            response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response.body();
+
     }
 
     public Call<TaskDTO> editTask(int id, TaskDTO task) {
