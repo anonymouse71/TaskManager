@@ -4,23 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.adapters.StartPagePagerAdapter;
-import com.example.emil.taskmanager.api.RestTask;
-import com.example.emil.taskmanager.entities.Task;
 import com.example.emil.taskmanager.listeners.IStartScreenListener;
-import com.example.emil.taskmanager.service.SynchronizerService;
-
-import java.io.IOException;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
+import com.example.emil.taskmanager.service.SynchronizerAsyncTask;
 
 public class HomeActivity extends AppCompatActivity implements IStartScreenListener {
 
@@ -39,9 +30,9 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
         StartPagePagerAdapter adapter = new StartPagePagerAdapter(getSupportFragmentManager(),this);
         viewPager.setAdapter(adapter);
 
+        SynchronizerAsyncTask asyncTask = new SynchronizerAsyncTask();
 
-        Intent serviceIntent = new Intent(this, SynchronizerService.class);
-        this.startService(serviceIntent);
+        asyncTask.execute();
 
     }
 

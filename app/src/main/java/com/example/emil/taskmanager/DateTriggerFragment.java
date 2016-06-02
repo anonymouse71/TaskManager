@@ -102,7 +102,7 @@ public class DateTriggerFragment extends Fragment {
                 calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
 
                 mTrigger.setDate(calendar);
-                mTrigger.setRepeating(false);
+                mTrigger.setRepeat(false);
                 mListener.saveTrigger(mTrigger);
             }
         });

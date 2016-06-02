@@ -56,7 +56,7 @@
             android:exported="true" />
 
         <service
-            android:name=".service.SynchronizerService"
+            android:name=".service.SynchronizerAsyncTask"
             android:enabled="true"
             android:exported="true" />
 

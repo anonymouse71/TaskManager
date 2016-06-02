@@ -92,7 +92,7 @@ public class AlarmTriggerFragment extends Fragment implements Serializable {
                 calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
 
                 mTrigger.setDate(calendar);
-                mTrigger.setRepeating(true);
+                mTrigger.setRepeat(true);
                 mListener.saveTrigger(mTrigger);
             }
         });
