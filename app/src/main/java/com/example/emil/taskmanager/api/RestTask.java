@@ -82,7 +82,7 @@ public class RestTask {
 
     }
 
-    public Call<TaskDTO> deleteTask(int id) {
+    public Call<TaskDTO> deleteTask(String id) {
         return service.deleteTask(id);
     }
 }
