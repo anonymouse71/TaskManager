@@ -63,8 +63,21 @@ public class RestTask {
         return service.editTask(id, task);
     }
 
-    public Call<TaskDTO> createTask(TaskDTO task) {
-        return service.createTask(task);
+    /**
+     * Saves a task in the database.
+     * @param task The TaskDTO to be created.
+     * @return TaskDTO
+     */
+    public void createTask(TaskDTO task) {
+
+        Call<TaskDTO> newTask = service.createTask(task);
+
+        try {
+            Response<TaskDTO> response = newTask.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public Call<TaskDTO> deleteTask(int id) {
