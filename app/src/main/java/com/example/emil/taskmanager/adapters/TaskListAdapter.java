@@ -54,10 +54,13 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         //Create new Fragment
         final Task task = (Task) fragments.get(position);
 
+        ImageView triggerIndicator = (ImageView) convertView.findViewById(R.id.Task_TriggerIndicator);
+
         // Set trigger text
         if (task.getTriggerList().size() > 0) {
-            ImageView triggerIndicator = (ImageView) convertView.findViewById(R.id.Task_TriggerIndicator);
             triggerIndicator.setImageResource(R.drawable.ic_alarm);
+        } else {
+            triggerIndicator.setImageResource(R.drawable.ic_alarm_disabled);
         }
 
 

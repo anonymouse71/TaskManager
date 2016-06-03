@@ -24,14 +24,20 @@
             android:layout_height="wrap_content"
             android:id="@+id/DateTrigger_TimePicker"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Save"
+            android:textColor="@color/colorLight"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:layout_marginBottom="15dp"
             android:id="@+id/DateTrigger_SaveBtn"
             android:layout_marginTop="15dp"
+            android:background="@drawable/btn_primary"
             android:layout_gravity="center_horizontal"/>
     </LinearLayout>
 </ScrollView>

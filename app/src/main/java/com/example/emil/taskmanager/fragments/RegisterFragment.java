@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.emil.taskmanager.listeners.IStartScreenListener;
 import com.example.emil.taskmanager.R;
@@ -66,7 +68,20 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false);
+        View v = inflater.inflate(R.layout.fragment_register, container, false);
+        Button registerButton = (Button) v.findViewById(R.id.register_activity_register_button);
+
+        final TextView username = (TextView) v.findViewById(R.id.register_activity_email);
+        final TextView password = (TextView) v.findViewById(R.id.register_activity_password);
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.registerPressed(username.getText().toString(), password.getText().toString());
+            }
+        });
+
+        return v;
     }
 
     @Override

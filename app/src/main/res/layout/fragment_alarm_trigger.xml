@@ -21,14 +21,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/TriggerTimePicker"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Save"
         android:id="@+id/AlarmTrigger_SaveBtn"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/colorLight"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:background="@drawable/btn_primary"/>
 
 </FrameLayout>

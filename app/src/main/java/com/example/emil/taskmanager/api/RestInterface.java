@@ -66,4 +66,6 @@ public interface RestInterface {
     @POST("user/check")
     Call<UserDTO> checkUser(@Body UserDTO user);
 
+    @POST("user")
+    Call<UserDTO> addUser(@Body UserDTO user);
 }
