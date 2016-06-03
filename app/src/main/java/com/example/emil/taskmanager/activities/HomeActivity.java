@@ -34,24 +34,9 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        /*Button loginButton = (Button)findViewById(R.id.login_button);
-
-        loginButton.setOnClickListener(loginClicked());*/
-
         viewPager = (ViewPager) findViewById(R.id.start_screen_viewPager);
         StartPagePagerAdapter adapter = new StartPagePagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
-
-    }
-
-    private View.OnClickListener loginClicked() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), TaskViewActivity.class);
-                startActivity(intent);
-            }
-        };
     }
 
     @Override
@@ -105,8 +90,6 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
                 Toast.makeText(context, "Invalid username/password", Toast.LENGTH_LONG).show();
             }
         });
-
-
     }
 
     @Override

@@ -47,7 +47,6 @@ public class CreateTaskPagerAdapter extends PagerAdapter implements Serializable
         fragments.remove(position);
     }
 
-
     @Override
     public int getCount() {
         return fragments.size();

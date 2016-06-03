@@ -24,7 +24,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-
+/**
+ * This class syncs the current users data from the REST service.
+ * This class also sets alarms on the alarm manager
+ */
 public class SynchronizerAsyncTask extends AsyncTask<Void,Void,Void> {
 
     final String ISO8601DATEFORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSZ";
@@ -41,15 +44,19 @@ public class SynchronizerAsyncTask extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
+
+        //Get all tasks from service
         RestTask rest = new RestTask();
         List<TaskDTO> taskList = rest.getTasksById(UserSettings.userId);
 
+        //Delete local data
         Task.deleteAll(Task.class);
         AlarmTrigger.deleteAll(AlarmTrigger.class);
 
+        //Save data from service in DB and setup alarms if any
         for (TaskDTO taskDTO : taskList){
 
-            Task task = new Task(taskDTO.getTitle(),taskDTO.getDescription(), TaskPriority.values()[taskDTO.getPriority()]);
+            Task task = new Task(taskDTO.getTitle(),taskDTO.getDescription(), TaskPriority.values()[taskDTO.getPriority()],taskDTO.get_id());
             Task.save(task);
             for (AlarmTriggerDTO alarmTriggerDTO : taskDTO.getTriggers()){
 
@@ -90,8 +97,6 @@ public class SynchronizerAsyncTask extends AsyncTask<Void,Void,Void> {
                 }
             }
         }
-
-
 
         return null;
     }

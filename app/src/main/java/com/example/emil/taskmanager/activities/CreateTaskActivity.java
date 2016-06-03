@@ -58,6 +58,9 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
 
+        alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        viewPager = (ViewPager) findViewById(R.id.CreateTask_ViewPager);
+
         Serializable id = getIntent().getSerializableExtra("Id");
         if (id != null) {
             currentTask = Task.findById(Task.class, (long) id);
@@ -66,13 +69,9 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             currentTask = new Task(null, null, TaskPriority.Low);
         }
 
-        alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-
-        viewPager = (ViewPager) findViewById(R.id.CreateTask_ViewPager);
-
         List<Fragment> fragments = new ArrayList<>();
 
-
+        //Add the first fragment
         fragments.add(TaskCreateFragment.newInstance(currentTask));
 
         if (savedInstanceState == null) {
@@ -80,43 +79,35 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             List<AlarmTrigger> triggersTemp = currentTask.getTriggerList();
 
             if (triggersTemp != null) {
-                for (AlarmTrigger trigger : triggersTemp) {
-                    triggers.add(trigger);
-                    switch (trigger.getCategory()) {
-                        case Alarm:
-                            fragments.add(AlarmTriggerFragment.newInstance(trigger));
-                            break;
-                        case Date:
-                            fragments.add(DateTriggerFragment.newInstance(trigger));
-                            break;
-                    }
-                }
-
+                addTriggerFragments(fragments, triggersTemp);
             }
-
-            fragments.add(CreateTriggerFragment.newInstance("", ""));
 
         } else {
             triggers = (List<AlarmTrigger>) savedInstanceState.getSerializable("data");
 
-            for (AlarmTrigger trigger : triggers) {
-                switch (trigger.getCategory()) {
-                    case Alarm:
-                        fragments.add(AlarmTriggerFragment.newInstance(trigger));
-                        break;
-                    case Date:
-                        fragments.add(DateTriggerFragment.newInstance(trigger));
-                        break;
-                }
-            }
-
-            fragments.add(CreateTriggerFragment.newInstance("", ""));
+            addTriggerFragments(fragments, triggers);
         }
 
+        //Add last fragment
+        fragments.add(CreateTriggerFragment.newInstance("", ""));
 
         adapter = new CreateTaskPagerAdapter(this, currentTask, fragments);
         viewPager.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
+
+    private void addTriggerFragments(List<Fragment> fragments, List<AlarmTrigger> triggersTemp) {
+        for (AlarmTrigger trigger : triggersTemp) {
+            triggers.add(trigger);
+            switch (trigger.getCategory()) {
+                case Alarm:
+                    fragments.add(AlarmTriggerFragment.newInstance(trigger));
+                    break;
+                case Date:
+                    fragments.add(DateTriggerFragment.newInstance(trigger));
+                    break;
+            }
+        }
     }
 
     @Override
@@ -124,7 +115,6 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
         super.onSaveInstanceState(outState);
 
         outState.putSerializable("data", (Serializable) triggers);
-
     }
 
     @Override
@@ -154,8 +144,6 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             tempTask = task;
             Task.save(tempTask);
 
-            Intent intent = new Intent(this, TaskViewActivity.class);
-            startActivity(intent);
         } else {
             tempTask = Task.findById(Task.class, currentTask.getId());
             tempTask.setTitle(task.getTitle());
@@ -164,8 +152,6 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
 
             Task.save(tempTask);
 
-            Intent intent = new Intent(this, TaskViewActivity.class);
-            startActivity(intent);
         }
 
         List<AlarmTriggerDTO> alarmTriggerDTOs = new ArrayList<>();
@@ -206,19 +192,25 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             }
         }
 
+        callWebservice(tempTask, alarmTriggerDTOs);
+    }
+
+    private void callWebservice(final Task tempTask, List<AlarmTriggerDTO> alarmTriggerDTOs) {
         final Context context = this;
 
-        if (currentTask.getTitle() == null) {
-            TaskDTO taskDTO = new TaskDTO(
-                    UserSettings.userId,
-                    tempTask.getTitle(),
-                    tempTask.getDescription(),
-                    tempTask.getPriority().getValue(),
-                    alarmTriggerDTOs,
-                    tempTask.getApiId()
-            );
+        TaskDTO taskDTO = new TaskDTO(
+                UserSettings.userId,
+                tempTask.getTitle(),
+                tempTask.getDescription(),
+                tempTask.getPriority().getValue(),
+                alarmTriggerDTOs,
+                tempTask.getApiId()
+        );
 
-            RestTask rest = new RestTask();
+        RestTask rest = new RestTask();
+
+        if (currentTask.getTitle() == null) {
+
             Call<TaskDTO> call = rest.service.createTask(taskDTO);
             call.enqueue(new Callback<TaskDTO>() {
                 @Override
@@ -227,6 +219,9 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
                         Toast.makeText(context, "Task Created", Toast.LENGTH_LONG).show();
                         tempTask.setApiId(response.body().get_id());
                         Task.save(tempTask);
+
+                        Intent intent = new Intent(context, TaskViewActivity.class);
+                        startActivity(intent);
                     }
                 }
 
@@ -235,23 +230,16 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
 
                 }
             });
-        }
-        else {
-            TaskDTO taskDTO = new TaskDTO(
-                    UserSettings.userId,
-                    tempTask.getTitle(),
-                    tempTask.getDescription(),
-                    tempTask.getPriority().getValue(),
-                    alarmTriggerDTOs,
-                    tempTask.getApiId()
-            );
-            RestTask rest = new RestTask();
+        } else {
             Call<TaskDTO> call = rest.service.editTask(tempTask.getApiId(), taskDTO);
             call.enqueue(new Callback<TaskDTO>() {
                 @Override
                 public void onResponse(Call<TaskDTO> call, Response<TaskDTO> response) {
-                    if (response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         Toast.makeText(context, "Task Edited", Toast.LENGTH_LONG).show();
+
+                        Intent intent = new Intent(context, TaskViewActivity.class);
+                        startActivity(intent);
                     }
                 }
 
@@ -261,7 +249,6 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
                 }
             });
         }
-
     }
 
     private Fragment createFragment(TriggerType triggerType) {

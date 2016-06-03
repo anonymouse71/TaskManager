@@ -53,7 +53,7 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
             tasks = (List<Task>) savedInstanceState.getSerializable("Data");
         }
 
-
+        //If we have not sync the current user
         if (!UserSettings.hasSynchronized) {
             SynchronizerAsyncTask asyncTask = new SynchronizerAsyncTask(this,this);
             asyncTask.execute();
