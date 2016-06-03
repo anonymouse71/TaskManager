@@ -2,7 +2,6 @@ package com.example.emil.taskmanager.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,18 +14,13 @@ import android.widget.Toast;
 import com.example.emil.taskmanager.api.RestTask;
 import com.example.emil.taskmanager.dto.TaskDTO;
 import com.example.emil.taskmanager.entities.Task;
-import com.example.emil.taskmanager.entities.TaskPriority;
-import com.example.emil.taskmanager.fragments.IListFragment;
 import com.example.emil.taskmanager.R;
-import com.example.emil.taskmanager.fragments.TaskFragment;
 import com.example.emil.taskmanager.adapters.TaskListAdapter;
 import com.example.emil.taskmanager.listeners.ITaskViewListener;
 import com.example.emil.taskmanager.service.SynchronizerAsyncTask;
-import com.example.emil.taskmanager.service.TaskService;
 import com.example.emil.taskmanager.utils.UserSettings;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 

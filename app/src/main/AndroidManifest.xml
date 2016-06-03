@@ -51,11 +51,6 @@
             android:parentActivityName=".activities.TaskViewActivity" />
 
         <service
-            android:name=".service.TaskService"
-            android:enabled="true"
-            android:exported="true" />
-
-        <service
             android:name=".service.SynchronizerAsyncTask"
             android:enabled="true"
             android:exported="true" />

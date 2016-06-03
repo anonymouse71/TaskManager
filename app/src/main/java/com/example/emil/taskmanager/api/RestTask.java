@@ -39,7 +39,6 @@ public class RestTask {
             e.printStackTrace();
         }
         return response.body();
-
     }
 
 }

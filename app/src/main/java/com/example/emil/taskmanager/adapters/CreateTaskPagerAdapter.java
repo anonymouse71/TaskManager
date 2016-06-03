@@ -26,8 +26,6 @@ import java.util.List;
  */
 public class CreateTaskPagerAdapter extends PagerAdapter implements Serializable {
 
-
-
     private final List<Fragment> fragments;
     private Context context;
     private  Task task;
@@ -69,14 +67,12 @@ public class CreateTaskPagerAdapter extends PagerAdapter implements Serializable
 
         container.addView(view);
         return view;
-        //return view;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
     }
-
 
     @Override
     public boolean isViewFromObject(View view, Object object) {

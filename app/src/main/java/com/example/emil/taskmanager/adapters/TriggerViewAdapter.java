@@ -56,6 +56,4 @@ public class TriggerViewAdapter extends ArrayAdapter<TriggerButton> {
 
         return convertView;
     }
-
-
 }
