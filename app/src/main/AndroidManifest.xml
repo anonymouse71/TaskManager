@@ -67,10 +67,6 @@
 
         <receiver android:name=".activities.AlarmReceiver"></receiver>
 
-        <service
-            android:name=".NotificationService"
-            android:enabled="true"
-            android:exported="true"></service>
     </application>
 
 </manifest>

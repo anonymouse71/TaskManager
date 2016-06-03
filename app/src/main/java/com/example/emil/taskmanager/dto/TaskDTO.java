@@ -1,6 +1,6 @@
 package com.example.emil.taskmanager.dto;
 
-import com.example.emil.taskmanager.entities.AlarmTrigger;
+import com.example.emil.taskmanager.entities.TaskPriority;
 
 import java.util.List;
 
@@ -8,14 +8,16 @@ public class TaskDTO {
 
     private String title;
     private String description;
+    private TaskPriority type;
     private List<AlarmTriggerDTO> triggers;
     private String userID;
     private String _id;
 
-    public TaskDTO(String userID, String title, String description, List<AlarmTriggerDTO> triggers, String id) {
+    public TaskDTO(String userID, String title, String description, TaskPriority type, List<AlarmTriggerDTO> triggers, String id) {
         this.userID = userID;
         this.title = title;
         this.description = description;
+        this.type = type;
         this.triggers = triggers;
         _id = id;
     }
@@ -50,6 +52,14 @@ public class TaskDTO {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public TaskPriority getType() {
+        return type;
+    }
+
+    public void setType(TaskPriority type) {
+        this.type = type;
     }
 
     public String get_id() {

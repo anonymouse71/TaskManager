@@ -181,6 +181,11 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+      /*  if (id == R.id.action_logout) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+        }*/
+
         if (id == R.id.action_sort_tasks_alpha) {
             SortAlphabetically(this.listView);
         }

@@ -1,6 +1,6 @@
 package com.example.emil.taskmanager.listeners;
 
-import com.example.emil.taskmanager.TriggerType;
+import com.example.emil.taskmanager.entities.TriggerType;
 
 /**
  * Created by Administrator on 5/18/2016.

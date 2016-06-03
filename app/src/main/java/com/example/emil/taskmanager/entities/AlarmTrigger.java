@@ -1,6 +1,5 @@
 package com.example.emil.taskmanager.entities;
 
-import com.example.emil.taskmanager.TriggerType;
 import com.orm.SugarRecord;
 
 import java.io.Serializable;

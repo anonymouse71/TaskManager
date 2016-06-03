@@ -1,6 +1,5 @@
 package com.example.emil.taskmanager.listeners;
 
-import com.example.emil.taskmanager.ITrigger;
 import com.example.emil.taskmanager.entities.AlarmTrigger;
 
 /**

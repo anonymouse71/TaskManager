@@ -39,12 +39,12 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
         loginButton.setOnClickListener(loginClicked());*/
 
         viewPager = (ViewPager) findViewById(R.id.start_screen_viewPager);
-        StartPagePagerAdapter adapter = new StartPagePagerAdapter(getSupportFragmentManager(),this);
+        StartPagePagerAdapter adapter = new StartPagePagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
 
     }
 
-    private View.OnClickListener loginClicked(){
+    private View.OnClickListener loginClicked() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +83,7 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
 
         final Activity context = this;
 
-        UserDTO user = new UserDTO(username,password);
+        UserDTO user = new UserDTO(username, password);
         RestTask rest = new RestTask();
         Call<UserDTO> call = rest.service.checkUser(user);
         call.enqueue(new Callback<UserDTO>() {
@@ -95,12 +95,14 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
 
                     Intent intent = new Intent(context, TaskViewActivity.class);
                     startActivity(intent);
+                } else {
+                    Toast.makeText(context, "Invalid username/password", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserDTO> call, Throwable t) {
-                Toast.makeText(context,"Invalid username/password",Toast.LENGTH_LONG);
+                Toast.makeText(context, "Invalid username/password", Toast.LENGTH_LONG).show();
             }
         });
 

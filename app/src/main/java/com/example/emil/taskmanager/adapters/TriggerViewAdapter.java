@@ -11,7 +11,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.emil.taskmanager.R;
-import com.example.emil.taskmanager.TriggerType;
 import com.example.emil.taskmanager.entities.TriggerButton;
 import com.example.emil.taskmanager.listeners.ITriggerButtonListener;
 

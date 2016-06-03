@@ -1,21 +1,13 @@
 package com.example.emil.taskmanager.service;
 
-import android.app.Service;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Debug;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.util.Log;
 
-import com.example.emil.taskmanager.TriggerType;
-import com.example.emil.taskmanager.activities.AlarmReceiver;
+import com.example.emil.taskmanager.entities.TriggerType;
 import com.example.emil.taskmanager.api.RestTask;
 import com.example.emil.taskmanager.dto.AlarmTriggerDTO;
 import com.example.emil.taskmanager.dto.TaskDTO;
 import com.example.emil.taskmanager.entities.AlarmTrigger;
 import com.example.emil.taskmanager.entities.Task;
-import com.example.emil.taskmanager.entities.TaskPriority;
 import com.example.emil.taskmanager.utils.UserSettings;
 
 import java.text.ParseException;
@@ -47,7 +39,7 @@ public class SynchronizerAsyncTask extends AsyncTask<Void,Void,Void> {
 
         for (TaskDTO taskDTO : taskList){
 
-            Task task = new Task(taskDTO.getTitle(),taskDTO.getDescription(), TaskPriority.Low);
+            Task task = new Task(taskDTO.getTitle(),taskDTO.getDescription(), taskDTO.getType());
             Task.save(task);
             for (AlarmTriggerDTO alarmTriggerDTO : taskDTO.getTriggers()){
 

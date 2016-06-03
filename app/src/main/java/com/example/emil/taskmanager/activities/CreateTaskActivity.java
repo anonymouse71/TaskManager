@@ -12,13 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.emil.taskmanager.DateTriggerFragment;
+import com.example.emil.taskmanager.fragments.DateTriggerFragment;
 import com.example.emil.taskmanager.api.RestTask;
 import com.example.emil.taskmanager.dto.AlarmTriggerDTO;
 import com.example.emil.taskmanager.dto.TaskDTO;
 import com.example.emil.taskmanager.fragments.AlarmTriggerFragment;
 import com.example.emil.taskmanager.R;
-import com.example.emil.taskmanager.TriggerType;
+import com.example.emil.taskmanager.entities.TriggerType;
 import com.example.emil.taskmanager.adapters.CreateTaskPagerAdapter;
 import com.example.emil.taskmanager.entities.Task;
 import com.example.emil.taskmanager.entities.AlarmTrigger;
@@ -209,7 +209,15 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
         final Context context = this;
 
         if (currentTask.getTitle() == null) {
-            TaskDTO taskDTO = new TaskDTO( UserSettings.userId, tempTask.getTitle(), tempTask.getDescription(), alarmTriggerDTOs, tempTask.getApiId());
+            TaskDTO taskDTO = new TaskDTO(
+                    UserSettings.userId,
+                    tempTask.getTitle(),
+                    tempTask.getDescription(),
+                    tempTask.getPriority(),
+                    alarmTriggerDTOs,
+                    tempTask.getApiId()
+            );
+
             RestTask rest = new RestTask();
             Call<TaskDTO> call = rest.service.createTask(taskDTO);
             call.enqueue(new Callback<TaskDTO>() {
@@ -229,7 +237,14 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             });
         }
         else {
-            TaskDTO taskDTO = new TaskDTO( UserSettings.userId, tempTask.getTitle(), tempTask.getDescription(), alarmTriggerDTOs, tempTask.getApiId());
+            TaskDTO taskDTO = new TaskDTO(
+                    UserSettings.userId,
+                    tempTask.getTitle(),
+                    tempTask.getDescription(),
+                    tempTask.getPriority(),
+                    alarmTriggerDTOs,
+                    tempTask.getApiId()
+            );
             RestTask rest = new RestTask();
             Call<TaskDTO> call = rest.service.editTask(tempTask.getApiId(), taskDTO);
             call.enqueue(new Callback<TaskDTO>() {

@@ -1,8 +1,7 @@
-package com.example.emil.taskmanager;
+package com.example.emil.taskmanager.fragments;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,8 +12,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
+import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.entities.AlarmTrigger;
-import com.example.emil.taskmanager.listeners.ITriggerButtonListener;
 import com.example.emil.taskmanager.listeners.ITriggerListener;
 
 import java.util.Calendar;
