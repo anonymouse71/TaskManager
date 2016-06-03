@@ -28,6 +28,7 @@
     <string name="title_activity_profile_view">Profile</string>
     <string name="task_sort_alpha_title">Sort by title</string>
     <string name="task_sort_numeric_title">Sort by Tasks</string>
+    <string name="task_logout">Logout</string>
     <string-array name="priorities">
         <item>Low</item>
         <item>Medium</item>
