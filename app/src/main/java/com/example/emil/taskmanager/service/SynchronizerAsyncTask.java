@@ -1,7 +1,13 @@
 package com.example.emil.taskmanager.service;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.example.emil.taskmanager.activities.AlarmReceiver;
+import com.example.emil.taskmanager.entities.TaskPriority;
 import com.example.emil.taskmanager.entities.TriggerType;
 import com.example.emil.taskmanager.api.RestTask;
 import com.example.emil.taskmanager.dto.AlarmTriggerDTO;
@@ -24,9 +30,13 @@ public class SynchronizerAsyncTask extends AsyncTask<Void,Void,Void> {
     final String ISO8601DATEFORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSZ";
 
     private OnSyncComplete listener;
+    private Context context;
+    private AlarmManager alarmManager;
 
-    public SynchronizerAsyncTask(OnSyncComplete listener) {
+    public SynchronizerAsyncTask(OnSyncComplete listener, Context context) {
         this.listener = listener;
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        this.context = context;
     }
 
     @Override
@@ -39,7 +49,7 @@ public class SynchronizerAsyncTask extends AsyncTask<Void,Void,Void> {
 
         for (TaskDTO taskDTO : taskList){
 
-            Task task = new Task(taskDTO.getTitle(),taskDTO.getDescription(), taskDTO.getType());
+            Task task = new Task(taskDTO.getTitle(),taskDTO.getDescription(), TaskPriority.values()[taskDTO.getPriority()]);
             Task.save(task);
             for (AlarmTriggerDTO alarmTriggerDTO : taskDTO.getTriggers()){
 
@@ -62,6 +72,22 @@ public class SynchronizerAsyncTask extends AsyncTask<Void,Void,Void> {
 
                 trigger.setTask(task);
                 AlarmTrigger.save(trigger);
+
+                Intent intent = new Intent(context, AlarmReceiver.class);
+
+                String message = task.getTitle() == null ? "test" : task.getTitle();
+
+                intent.putExtra("Title", "Alarm");
+                intent.putExtra("Message", message);
+                intent.putExtra("Id", task.getId());
+
+                PendingIntent alarmIntent = PendingIntent.getBroadcast(context, trigger.getId().intValue(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                if (trigger.isRepeat()) {
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), trigger.getInterval(), alarmIntent);
+                } else {
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
+                }
             }
         }
 

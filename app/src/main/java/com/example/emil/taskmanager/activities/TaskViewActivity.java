@@ -55,7 +55,7 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
 
 
         if (!UserSettings.hasSynchronized) {
-            SynchronizerAsyncTask asyncTask = new SynchronizerAsyncTask(this);
+            SynchronizerAsyncTask asyncTask = new SynchronizerAsyncTask(this,this);
             asyncTask.execute();
 
             UserSettings.hasSynchronized = true;
@@ -181,10 +181,10 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-      /*  if (id == R.id.action_logout) {
+        if (id == R.id.action_logout) {
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
-        }*/
+        }
 
         if (id == R.id.action_sort_tasks_alpha) {
             SortAlphabetically(this.listView);

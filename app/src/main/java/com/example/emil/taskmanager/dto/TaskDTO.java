@@ -8,16 +8,16 @@ public class TaskDTO {
 
     private String title;
     private String description;
-    private TaskPriority type;
+    private int priority;
     private List<AlarmTriggerDTO> triggers;
     private String userID;
     private String _id;
 
-    public TaskDTO(String userID, String title, String description, TaskPriority type, List<AlarmTriggerDTO> triggers, String id) {
+    public TaskDTO(String userID, String title, String description, int type, List<AlarmTriggerDTO> triggers, String id) {
         this.userID = userID;
         this.title = title;
         this.description = description;
-        this.type = type;
+        this.priority = type;
         this.triggers = triggers;
         _id = id;
     }
@@ -54,12 +54,12 @@ public class TaskDTO {
         this.userID = userID;
     }
 
-    public TaskPriority getType() {
-        return type;
+    public int getPriority() {
+        return priority;
     }
 
-    public void setType(TaskPriority type) {
-        this.type = type;
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     public String get_id() {

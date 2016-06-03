@@ -213,7 +213,7 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
                     UserSettings.userId,
                     tempTask.getTitle(),
                     tempTask.getDescription(),
-                    tempTask.getPriority(),
+                    tempTask.getPriority().getValue(),
                     alarmTriggerDTOs,
                     tempTask.getApiId()
             );
@@ -241,7 +241,7 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
                     UserSettings.userId,
                     tempTask.getTitle(),
                     tempTask.getDescription(),
-                    tempTask.getPriority(),
+                    tempTask.getPriority().getValue(),
                     alarmTriggerDTOs,
                     tempTask.getApiId()
             );
