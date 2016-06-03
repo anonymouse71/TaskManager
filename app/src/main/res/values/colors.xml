@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#37474F</color>
+    <color name="colorPrimaryDark">#263238</color>
     <color name="textFieldHeading">#212121</color>
-    <color name="TriggerButton">#FF1DE9B6</color>
-    <color name="colorAccent">#E7E7E7</color>
-    <color name="colorDark">#434B62</color>
+    <color name="TriggerButton">#263238</color>
+    <color name="colorAccent">#9575CD</color>
+    <color name="colorDark">#263238</color>
     <color name="colorLight">#FFFFFF</color>
+    <color name="colorDelete">#263238</color>
+    <color name="colorComplete">#37474F</color>
+    <color name="colorEdit">#37474F</color>
 </resources>
