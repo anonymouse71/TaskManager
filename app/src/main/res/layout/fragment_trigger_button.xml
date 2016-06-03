@@ -11,7 +11,7 @@
         android:layout_height="fill_parent"
         android:id="@+id/TriggerButton_Btn"
         android:layout_gravity="center"
-        android:background="@drawable/create_trigger_button"
+        android:background="@drawable/btn_trigger"
         android:src="@android:drawable/ic_lock_idle_alarm"
         android:scaleType="fitXY"
         android:paddingBottom="40dp"
