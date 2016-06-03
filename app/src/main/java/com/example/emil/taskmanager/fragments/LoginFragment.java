@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.emil.taskmanager.listeners.IStartScreenListener;
 import com.example.emil.taskmanager.R;
@@ -69,11 +70,15 @@ public class LoginFragment extends Fragment {
 
         View view =  inflater.inflate(R.layout.fragment_login, container, false);
 
+        final EditText username = (EditText)view.findViewById(R.id.Login_Username);
+
+        final EditText password = (EditText)view.findViewById(R.id.Login_Password);
+
         Button loginBtn = (Button) view.findViewById(R.id.login_activity_login_button);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.loginPressed("test","test");
+                mListener.loginPressed(username.getText().toString(),password.getText().toString());
             }
         });
 

@@ -59,7 +59,7 @@ public interface RestInterface {
      * Checks if the username and password matches
      * @return User Returns user object if it's a match.
      */
-    @POST
-    Call<List<UserDTO>> checkUser();
+    @POST("user/check")
+    Call<UserDTO> checkUser(@Body UserDTO user);
 
 }

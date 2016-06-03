@@ -1,6 +1,9 @@
 package com.example.emil.taskmanager.activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +13,16 @@ import android.view.View;
 
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.adapters.StartPagePagerAdapter;
+import com.example.emil.taskmanager.api.RestTask;
+import com.example.emil.taskmanager.dto.UserDTO;
+import com.example.emil.taskmanager.entities.User;
 import com.example.emil.taskmanager.listeners.IStartScreenListener;
 import com.example.emil.taskmanager.service.SynchronizerAsyncTask;
+import com.example.emil.taskmanager.utils.UserSettings;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity implements IStartScreenListener {
 
@@ -30,9 +41,7 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
         StartPagePagerAdapter adapter = new StartPagePagerAdapter(getSupportFragmentManager(),this);
         viewPager.setAdapter(adapter);
 
-        SynchronizerAsyncTask asyncTask = new SynchronizerAsyncTask();
 
-        //asyncTask.execute();
 
     }
 
@@ -70,8 +79,31 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
 
     @Override
     public void loginPressed(String username, String password) {
-        Intent intent = new Intent(this, TaskViewActivity.class);
-        startActivity(intent);
+
+        final Activity context = this;
+
+        UserDTO user = new UserDTO(username,password);
+        RestTask rest = new RestTask();
+        Call<UserDTO> call = rest.service.checkUser(user);
+        call.enqueue(new Callback<UserDTO>() {
+            @Override
+            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                if (response.isSuccessful()) {
+
+                    UserSettings.userId = response.body().getID();
+
+                    Intent intent = new Intent(context, TaskViewActivity.class);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserDTO> call, Throwable t) {
+
+            }
+        });
+
+
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.emil.taskmanager.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +21,9 @@ import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.fragments.TaskFragment;
 import com.example.emil.taskmanager.adapters.TaskListAdapter;
 import com.example.emil.taskmanager.listeners.ITaskViewListener;
+import com.example.emil.taskmanager.service.SynchronizerAsyncTask;
 import com.example.emil.taskmanager.service.TaskService;
+import com.example.emil.taskmanager.utils.UserSettings;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,6 +52,13 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
         if (savedInstanceState != null){
             tasks = (List<Task>) savedInstanceState.getSerializable("Data");
         }
+
+
+        String userId = UserSettings.userId;
+
+        SynchronizerAsyncTask asyncTask = new SynchronizerAsyncTask();
+
+        //asyncTask.execute();
 
         startListView();
     }

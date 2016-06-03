@@ -28,6 +28,7 @@ import com.example.emil.taskmanager.fragments.TaskCreateFragment;
 import com.example.emil.taskmanager.listeners.ICreateTaskListener;
 import com.example.emil.taskmanager.listeners.ITriggerButtonListener;
 import com.example.emil.taskmanager.listeners.ITriggerListener;
+import com.example.emil.taskmanager.utils.UserSettings;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -208,7 +209,7 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
         final Context context = this;
 
         if (currentTask.getTitle() == null) {
-            TaskDTO taskDTO = new TaskDTO("574b3692b8a61111003260c1", tempTask.getTitle(), tempTask.getDescription(), alarmTriggerDTOs, tempTask.getApiId());
+            TaskDTO taskDTO = new TaskDTO( UserSettings.userId, tempTask.getTitle(), tempTask.getDescription(), alarmTriggerDTOs, tempTask.getApiId());
             RestTask rest = new RestTask();
             Call<TaskDTO> call = rest.service.createTask(taskDTO);
             call.enqueue(new Callback<TaskDTO>() {
@@ -228,7 +229,7 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
             });
         }
         else {
-            TaskDTO taskDTO = new TaskDTO("574b3692b8a61111003260c1", tempTask.getTitle(), tempTask.getDescription(), alarmTriggerDTOs, tempTask.getApiId());
+            TaskDTO taskDTO = new TaskDTO( UserSettings.userId, tempTask.getTitle(), tempTask.getDescription(), alarmTriggerDTOs, tempTask.getApiId());
             RestTask rest = new RestTask();
             Call<TaskDTO> call = rest.service.editTask(tempTask.getApiId(), taskDTO);
             call.enqueue(new Callback<TaskDTO>() {
