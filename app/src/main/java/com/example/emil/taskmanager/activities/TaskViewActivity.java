@@ -174,9 +174,12 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_profile_view) {
-            Intent intent = new Intent(this, ProfileViewActivity.class);
-            startActivity(intent);
+        if (id == R.id.action_sort_tasks_alpha) {
+            SortAlphabetically(this.listView);
+        }
+
+        if (id == R.id.action_sort_tasks_numerical) {
+            SortByPriority(this.listView);
         }
 
         if (id == R.id.action_task_add) {

@@ -1,6 +1,7 @@
 package com.example.emil.taskmanager.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -53,11 +54,17 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         //Create new Fragment
         final Task task = (Task) fragments.get(position);
 
+        // Set trigger text
         TextView triggerCount = (TextView) convertView.findViewById(R.id.Task_TriggerCount);
-        triggerCount.setText(task.getTriggerList().size() + " Trigger");
+        triggerCount.setText(task.getTriggerList().size() + "");
 
+        // Set title text
         TextView titleText = (TextView) convertView.findViewById(R.id.Task_Title);
-        titleText.setText(task.getTitle());
+        titleText.setText(getShortTitle(task.getTitle()).toUpperCase());
+
+        // Set description text
+        TextView descriptionText = (TextView) convertView.findViewById(R.id.Task_Description);
+        descriptionText.setText(getShortDescription(task.getDescription()));
 
         FrameLayout priorityBar = (FrameLayout) convertView.findViewById(R.id.Task_Priority_Indicator);
         priorityBar.setBackgroundColor(PriorityColors.getColor(task.getPriority()));
@@ -132,20 +139,44 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
     }
 
 
-    private final int MIN_DISTANCE = 20;
+    private final int MIN_DISTANCE = 100;
 
     private boolean DetermineSwipeDirection(float deltaX, RelativeLayout layout, Task task) {
         if (Math.abs(deltaX) > MIN_DISTANCE) {
             // Left to Right swipe action
             if (x2 > x1)
-                AnimationUtil.swipeOpen(layout, context, 80);
+                AnimationUtil.swipeOpen(layout, context, 70);
             else
-                AnimationUtil.swipeOpen(layout, context, -160);
+                AnimationUtil.swipeOpen(layout, context, -140);
 
             task.setMenuOpen(true);
             return true;
         }
         return false;
+    }
+
+    private String getShortDescription(String text) {
+        if (text.length() >= 30) {
+            if (text.charAt(28) == ' ') {
+                return text.substring(0,28) + "...";
+            } else {
+                return text.substring(0,29) + "...";
+            }
+        } else {
+            return text;
+        }
+    }
+
+    private String getShortTitle(String text) {
+        if (text.length() >= 35) {
+            if (text.charAt(33) == ' ') {
+                return text.substring(0,33) + "...";
+            } else {
+                return text.substring(0,34) + "...";
+            }
+        } else {
+            return text;
+        }
     }
 }
 

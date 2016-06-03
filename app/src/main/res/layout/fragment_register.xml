@@ -146,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_marginTop="15dp"
-                android:backgroundTint="@color/colorPrimary"
+                android:background="@drawable/btn_primary"
                 android:text="@string/register_activity_register_button"
                 android:textColor="@color/colorLight" />
 
