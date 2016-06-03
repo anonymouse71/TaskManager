@@ -16,6 +16,7 @@ import com.example.emil.taskmanager.dto.TaskDTO;
 import com.example.emil.taskmanager.entities.AlarmTrigger;
 import com.example.emil.taskmanager.entities.Task;
 import com.example.emil.taskmanager.entities.TaskPriority;
+import com.example.emil.taskmanager.utils.UserSettings;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,10 +31,16 @@ public class SynchronizerAsyncTask extends AsyncTask<Void,Void,Void> {
 
     final String ISO8601DATEFORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSZ";
 
+    private OnSyncComplete listener;
+
+    public SynchronizerAsyncTask(OnSyncComplete listener) {
+        this.listener = listener;
+    }
+
     @Override
     protected Void doInBackground(Void... params) {
         RestTask rest = new RestTask();
-        List<TaskDTO> taskList = rest.getTasks();
+        List<TaskDTO> taskList = rest.getTasksById(UserSettings.userId);
 
         Task.deleteAll(Task.class);
         AlarmTrigger.deleteAll(AlarmTrigger.class);
@@ -66,8 +73,18 @@ public class SynchronizerAsyncTask extends AsyncTask<Void,Void,Void> {
             }
         }
 
-        Log.d("lol","test");
+
 
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        listener.syncComplete();
+    }
+
+    public interface OnSyncComplete{
+        void syncComplete();
     }
 }

@@ -27,9 +27,9 @@ public class RestTask {
      *
      * @return List<TaskDTO>
      */
-    public List<TaskDTO> getTasks() {
+    public List<TaskDTO> getTasksById(String userId) {
 
-        Call<List<TaskDTO>> taskList = service.getTasks();
+        Call<List<TaskDTO>> taskList = service.getTaskByUserId(userId);
         Response<List<TaskDTO>> response = null;
 
         try {

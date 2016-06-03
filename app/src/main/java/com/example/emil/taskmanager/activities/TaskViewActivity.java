@@ -34,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TaskViewActivity extends AppCompatActivity implements ITaskViewListener {
+public class TaskViewActivity extends AppCompatActivity implements ITaskViewListener, SynchronizerAsyncTask.OnSyncComplete {
 
     private TaskListAdapter listAdapter;
     private ListView listView;
@@ -49,30 +49,27 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
 
         listView = (ListView) findViewById(R.id.listView);
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             tasks = (List<Task>) savedInstanceState.getSerializable("Data");
         }
 
 
-        String userId = UserSettings.userId;
+        if (!UserSettings.hasSynchronized) {
+            SynchronizerAsyncTask asyncTask = new SynchronizerAsyncTask(this);
+            asyncTask.execute();
 
-        SynchronizerAsyncTask asyncTask = new SynchronizerAsyncTask();
+            UserSettings.hasSynchronized = true;
+        }else {
+            if (tasks == null) {
+                tasks = Task.listAll(Task.class);
+            }
 
-        //asyncTask.execute();
+            final TaskListAdapter adapter = new TaskListAdapter(this, R.layout.fragment_task, tasks);
 
-        startListView();
-    }
-
-    private void startListView() {
-        if (tasks == null){
-            tasks = Task.listAll(Task.class);
+            listView.setAdapter(adapter);
+            listAdapter = adapter;
         }
 
-
-        final TaskListAdapter adapter = new TaskListAdapter(this, R.layout.fragment_task, tasks);
-
-        listView.setAdapter(adapter);
-        listAdapter = adapter;
     }
 
     @Override
@@ -98,17 +95,17 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
         prioritySort = false;
     }
 
-    public void SortByPriority(View v){
+    public void SortByPriority(View v) {
         listAdapter.sort(new Comparator<Task>() {
             @Override
             public int compare(Task lhs, Task rhs) {
-                if (prioritySort){
+                if (prioritySort) {
                     if (lhs.getPriority().getValue() <= rhs.getPriority().getValue()) {
                         return -1;
                     } else {
                         return 1;
                     }
-                }else {
+                } else {
                     if (lhs.getPriority().getValue() >= rhs.getPriority().getValue()) {
                         return -1;
                     } else {
@@ -146,7 +143,7 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
         call.enqueue(new Callback<TaskDTO>() {
             @Override
             public void onResponse(Call<TaskDTO> call, Response<TaskDTO> response) {
-                Toast.makeText(context,"Task Deleted",Toast.LENGTH_LONG);
+                Toast.makeText(context, "Task Deleted", Toast.LENGTH_LONG);
             }
 
             @Override
@@ -198,5 +195,17 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void syncComplete() {
+        if (tasks == null) {
+            tasks = Task.listAll(Task.class);
+        }
+
+        final TaskListAdapter adapter = new TaskListAdapter(this, R.layout.fragment_task, tasks);
+
+        listView.setAdapter(adapter);
+        listAdapter = adapter;
     }
 }

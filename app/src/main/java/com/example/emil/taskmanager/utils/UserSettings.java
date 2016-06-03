@@ -7,4 +7,6 @@ public class UserSettings {
 
     public static String userId;
 
+    public static boolean hasSynchronized;
+
 }

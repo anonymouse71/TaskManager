@@ -30,6 +30,10 @@ public interface RestInterface {
     @GET("tasks/{id}")
     Call<TaskDTO> getTaskById(@Path("id") int id);
 
+
+    @GET("tasks/user/{id}")
+    Call<List<TaskDTO>> getTaskByUserId(@Path("id") String id);
+
     /**
      * Edits a task in the database.
      * @param id The ID of the task.

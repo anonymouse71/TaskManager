@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.adapters.StartPagePagerAdapter;
@@ -40,8 +41,6 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
         viewPager = (ViewPager) findViewById(R.id.start_screen_viewPager);
         StartPagePagerAdapter adapter = new StartPagePagerAdapter(getSupportFragmentManager(),this);
         viewPager.setAdapter(adapter);
-
-
 
     }
 
@@ -80,6 +79,8 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
     @Override
     public void loginPressed(String username, String password) {
 
+        UserSettings.hasSynchronized = false;
+
         final Activity context = this;
 
         UserDTO user = new UserDTO(username,password);
@@ -99,7 +100,7 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
 
             @Override
             public void onFailure(Call<UserDTO> call, Throwable t) {
-
+                Toast.makeText(context,"Invalid username/password",Toast.LENGTH_LONG);
             }
         });
 
