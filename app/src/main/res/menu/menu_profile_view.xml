@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/action_profile_edit"
-        android:icon="@drawable/edit_icon"
+        android:icon="@drawable/ic_pencil"
         android:title="@string/profile_edit_title"
         app:showAsAction="ifRoom" />
 

@@ -1,7 +1,6 @@
 package com.example.emil.taskmanager.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,13 +11,14 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.entities.Task;
-import com.example.emil.taskmanager.utils.AnimationUtil;
 import com.example.emil.taskmanager.listeners.ITaskViewListener;
+import com.example.emil.taskmanager.utils.AnimationUtil;
 import com.example.emil.taskmanager.utils.PriorityColors;
 
 import java.util.List;
@@ -55,8 +55,11 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         final Task task = (Task) fragments.get(position);
 
         // Set trigger text
-        TextView triggerCount = (TextView) convertView.findViewById(R.id.Task_TriggerCount);
-        triggerCount.setText(task.getTriggerList().size() + "");
+        if (task.getTriggerList().size() > 0) {
+            ImageView triggerIndicator = (ImageView) convertView.findViewById(R.id.Task_TriggerIndicator);
+            triggerIndicator.setImageResource(R.drawable.ic_alarm);
+        }
+
 
         // Set title text
         TextView titleText = (TextView) convertView.findViewById(R.id.Task_Title);

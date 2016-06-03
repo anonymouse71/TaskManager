@@ -27,7 +27,7 @@
             android:layout_centerInParent="true"
             android:background="#00ffff00"
             android:clickable="true"
-            android:src="@drawable/ic_check"/>
+            android:src="@drawable/ic_check" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -46,9 +46,9 @@
             android:layout_alignParentEnd="false"
             android:layout_alignParentRight="false"
             android:layout_centerInParent="true"
+            android:background="@color/colorEdit"
             android:clickable="true"
-            android:src="@drawable/edit_icon"
-            android:background="@color/colorEdit"/>
+            android:src="@drawable/ic_pencil" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -66,9 +66,9 @@
             android:layout_alignParentEnd="false"
             android:layout_alignParentRight="false"
             android:layout_centerInParent="true"
-            android:clickable="true"
-            android:src="@drawable/ic_recycle"
             android:background="@color/colorDelete"
+            android:clickable="true"
+            android:src="@drawable/ic_trash"
             android:visibility="visible" />
 
     </RelativeLayout>
@@ -88,11 +88,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="15dp"
             android:text="Take out the trash"
             android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:textSize="14dp"/>
+            android:textSize="14dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/Task_Description"
@@ -107,21 +107,19 @@
             android:textColor="#a3a3a3"
             android:textSize="14dp" />
 
-        <TextView
-            android:id="@+id/Task_TriggerCount"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+        <ImageView
+            android:id="@+id/Task_TriggerIndicator"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="17dp"
             android:layout_marginRight="17dp"
-            android:background="@drawable/circle_bg"
+            android:src="@drawable/ic_alarm_disabled"
             android:gravity="center_vertical|center_horizontal"
-            android:text="0"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#424242"
-            android:textSize="18dp" />
+            />
+
 
         <FrameLayout
             android:id="@+id/Task_Priority_Indicator"

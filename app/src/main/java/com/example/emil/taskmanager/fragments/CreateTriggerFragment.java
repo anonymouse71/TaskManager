@@ -81,8 +81,8 @@ public class CreateTriggerFragment extends Fragment implements ITriggerButtonLis
         GridView gridView = (GridView) view.findViewById(R.id.TriggerGridView);
         List<TriggerButton> triggerButtonFragments = new ArrayList<>();
 
-        triggerButtonFragments.add(new TriggerButton(R.drawable.alarm_icon, "Alarm",TriggerType.Alarm));
-        triggerButtonFragments.add(new TriggerButton(R.drawable.date_icon, "Date",TriggerType.Date));
+        triggerButtonFragments.add(new TriggerButton(R.drawable.ic_alarm, "Alarm",TriggerType.Alarm));
+        triggerButtonFragments.add(new TriggerButton(R.drawable.ic_date, "Date",TriggerType.Date));
 
         TriggerViewAdapter adapter = new TriggerViewAdapter(inflater.getContext(),R.layout.fragment_trigger_button,triggerButtonFragments,this);
         adapter.notifyDataSetChanged();

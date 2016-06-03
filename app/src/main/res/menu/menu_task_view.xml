@@ -6,13 +6,11 @@
 
     <item
         android:id="@+id/action_sort_tasks_alpha"
-        android:icon="@drawable/ic_sort_alpha"
         android:title="@string/task_sort_alpha_title"
         app:showAsAction="collapseActionView"/>
 
     <item
         android:id="@+id/action_sort_tasks_numerical"
-        android:icon="@drawable/ic_sort_numerical"
         android:title="@string/task_sort_numeric_title"
         app:showAsAction="collapseActionView"/>
 
@@ -24,7 +22,6 @@
 
     <item
         android:id="@+id/action_logout"
-        android:icon="@drawable/ic_logout"
         android:title="@string/task_logout"
         app:showAsAction="collapseActionView"/>
 
