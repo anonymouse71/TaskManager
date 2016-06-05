@@ -9,15 +9,17 @@ public class TaskDTO {
     private String title;
     private String description;
     private int priority;
+    private boolean completed;
     private List<AlarmTriggerDTO> triggers;
     private String userID;
     private String _id;
 
-    public TaskDTO(String userID, String title, String description, int type, List<AlarmTriggerDTO> triggers, String id) {
+    public TaskDTO(String userID, String title, String description, int type, boolean completed, List<AlarmTriggerDTO> triggers, String id) {
         this.userID = userID;
         this.title = title;
         this.description = description;
         this.priority = type;
+        this.completed = completed;
         this.triggers = triggers;
         _id = id;
     }
@@ -44,6 +46,14 @@ public class TaskDTO {
 
     public void setTriggers(List<AlarmTriggerDTO> triggers) {
         this.triggers = triggers;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     public String getUserID() {

@@ -56,8 +56,15 @@ public class SynchronizerAsyncTask extends AsyncTask<Void,Void,Void> {
         //Save data from service in DB and setup alarms if any
         for (TaskDTO taskDTO : taskList){
 
-            Task task = new Task(taskDTO.getTitle(),taskDTO.getDescription(), TaskPriority.values()[taskDTO.getPriority()],taskDTO.get_id(), completed);
+            Task task = new Task(
+                    taskDTO.getTitle(),
+                    taskDTO.getDescription(),
+                    TaskPriority.values()[taskDTO.getPriority()],
+                    taskDTO.get_id(),
+                    taskDTO.isCompleted()
+            );
             Task.save(task);
+
             for (AlarmTriggerDTO alarmTriggerDTO : taskDTO.getTriggers()){
 
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault()) ;

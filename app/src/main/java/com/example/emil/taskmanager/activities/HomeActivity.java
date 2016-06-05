@@ -1,11 +1,8 @@
 package com.example.emil.taskmanager.activities;
 
 import android.app.Activity;
-<<<<<<<HEAD
-        =======
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
->>>>>>>56fa5e6c3961abf11f65ded285d58ac14325f681
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -13,12 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-<<<<<<<HEAD
-        =======
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
->>>>>>>56fa5e6c3961abf11f65ded285d58ac14325f681
-import android.widget.Toast;
 
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.adapters.StartPagePagerAdapter;

@@ -204,6 +204,7 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
                 tempTask.getTitle(),
                 tempTask.getDescription(),
                 tempTask.getPriority().getValue(),
+                tempTask.isCompleted(),
                 alarmTriggerDTOs,
                 tempTask.getApiId()
         );
