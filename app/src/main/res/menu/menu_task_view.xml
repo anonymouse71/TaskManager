@@ -21,6 +21,12 @@
         app:showAsAction="always"/>
 
     <item
+        android:id="@+id/action_refresh_data"
+        android:icon="@drawable/ic_undo"
+        android:title="@string/task_add_title"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/action_logout"
         android:title="@string/task_logout"
         app:showAsAction="collapseActionView"/>
