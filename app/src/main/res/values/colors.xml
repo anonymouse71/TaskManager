@@ -10,4 +10,6 @@
     <color name="colorDelete">#263238</color>
     <color name="colorComplete">#37474F</color>
     <color name="colorEdit">#37474F</color>
+    <color name="colorDanger">#d32f2f</color>
+    <color name="ColorSuccess">#49AD50</color>
 </resources>

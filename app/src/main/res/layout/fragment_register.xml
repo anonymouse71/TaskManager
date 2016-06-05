@@ -71,25 +71,6 @@
                 android:ems="10"
                 android:inputType="textPassword" />
 
-            <TextView
-                android:id="@+id/register_activity_repeat_password_label"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/register_activity_repeat_password_label"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/register_activity_repeat_password"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:ems="10"
-                android:inputType="textPassword" />
-
             <Button
                 android:id="@+id/register_activity_register_button"
                 android:layout_width="fill_parent"

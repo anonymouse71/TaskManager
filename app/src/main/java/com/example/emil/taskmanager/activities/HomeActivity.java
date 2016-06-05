@@ -1,12 +1,23 @@
 package com.example.emil.taskmanager.activities;
 
 import android.app.Activity;
+<<<<<<<HEAD
+        =======
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+>>>>>>>56fa5e6c3961abf11f65ded285d58ac14325f681
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+<<<<<<<HEAD
+        =======
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+>>>>>>>56fa5e6c3961abf11f65ded285d58ac14325f681
 import android.widget.Toast;
 
 import com.example.emil.taskmanager.R;
@@ -15,6 +26,7 @@ import com.example.emil.taskmanager.api.RestClient;
 import com.example.emil.taskmanager.dto.UserDTO;
 import com.example.emil.taskmanager.listeners.IStartScreenListener;
 import com.example.emil.taskmanager.utils.UserSettings;
+import com.example.emil.taskmanager.utils.Validator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,60 +72,221 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
     public void loginPressed(String username, String password) {
 
         UserSettings.hasSynchronized = false;
-
         final Activity context = this;
+        boolean isUsernameValid = true;
+        boolean isPasswordValid = true;
+        final ProgressDialog loadingDialog = new ProgressDialog(context);
 
-        UserDTO user = new UserDTO(username, password);
-        RestClient rest = new RestClient();
-        Call<UserDTO> call = rest.service.checkUser(user);
-        call.enqueue(new Callback<UserDTO>() {
-            @Override
-            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
-                if (response.isSuccessful()) {
+        // Show loading dialog
+        loadingDialog.setMessage("Logging in");
+        loadingDialog.setCancelable(false);
+        loadingDialog.show();
 
-                    UserSettings.userId = response.body().getID();
+        // Close the keyboard
+        try {
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+            // Keyboard is not active.
+        }
 
-                    Intent intent = new Intent(context, TaskViewActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(context, "Invalid username/password", Toast.LENGTH_LONG).show();
+        // Validate fields
+        EditText un = (EditText) findViewById(R.id.login_activity_username);
+        EditText pw = (EditText) findViewById(R.id.login_activity_password);
+
+        // Check username
+        if (!Validator.isPresent(un.getText().toString())) {
+            un.setError("This field cannot be empty");
+            isUsernameValid = false;
+        }
+
+        if (isUsernameValid && !Validator.isEmail(un.getText().toString())) {
+            un.setError("Please provide a valid email");
+            isUsernameValid = false;
+        }
+
+        // Check password
+        if (!Validator.isPresent(pw.getText().toString())) {
+            pw.setError("This field cannot be empty");
+            isPasswordValid = false;
+        }
+
+        if (isPasswordValid && isUsernameValid) {
+
+            UserDTO user = new UserDTO(username, password);
+            RestClient rest = new RestClient();
+            Call<UserDTO> call = rest.service.checkUser(user);
+            call.enqueue(new Callback<UserDTO>() {
+
+                @Override
+                public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+
+                    loadingDialog.dismiss();
+
+                    if (response.isSuccessful()) {
+                        UserSettings.userId = response.body().getID();
+                        Intent intent = new Intent(context, TaskViewActivity.class);
+                        startActivity(intent);
+
+
+                    } else {
+                        new AlertDialog.Builder(context)
+                                .setTitle("Login failed")
+                                .setMessage("Your username or password is incorrect.")
+                                .setPositiveButton("TRY AGAIN", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Do nothing.
+                                    }
+                                })
+                                .setIcon(R.drawable.ic_alert)
+                                .show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<UserDTO> call, Throwable t) {
-                Toast.makeText(context, "Invalid username/password", Toast.LENGTH_LONG).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<UserDTO> call, Throwable t) {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Login failed")
+                            .setMessage("Your username or password is incorrect.")
+                            .setPositiveButton("TRY AGAIN", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Do nothing.
+                                }
+                            })
+                            .setIcon(R.drawable.ic_alert)
+                            .show();
+                }
+            });
+
+        } else {
+            loadingDialog.dismiss();
+        }
     }
 
     @Override
     public void registerPressed(String username, String password) {
 
         final Activity context = this;
+        boolean isUsernameValid = true;
+        boolean isPasswordValid = true;
+        final ProgressDialog loadingDialog = new ProgressDialog(context);
 
+        // Show loading dialog
+        loadingDialog.setMessage("Registering");
+        loadingDialog.setCancelable(false);
+        loadingDialog.show();
+
+        // Close the keyboard
+        try {
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+            // Keyboard is not active.
+        }
+
+        // Validate fields
+        EditText un = (EditText) findViewById(R.id.register_activity_email);
+        EditText pw = (EditText) findViewById(R.id.register_activity_password);
+
+        // Check username
+        if (!Validator.isPresent(un.getText().toString())) {
+            un.setError("This field cannot be empty");
+            isUsernameValid = false;
+        }
+
+        if (isUsernameValid && Validator.isBelow(un.getText().toString(), 6)) {
+            un.setError("Your email must be at least 6 characters");
+            isUsernameValid = false;
+        }
+
+        if (isUsernameValid && !Validator.isEmail(un.getText().toString())) {
+            un.setError("Please provide a valid email");
+            isUsernameValid = false;
+        }
+
+        // Check password
+        if (!Validator.isPresent(pw.getText().toString())) {
+            pw.setError("This field cannot be empty");
+            isPasswordValid = false;
+        }
+
+        if (isPasswordValid && !Validator.isPassword(pw.getText().toString())) {
+            pw.setError("Your password must be at least 8 characters and contain at least 1 letter and 1 number");
+            isPasswordValid = false;
+        }
+
+        if (isUsernameValid && isPasswordValid)
+        {
         UserDTO user = new UserDTO(username, password);
         RestClient rest = new RestClient();
         Call<UserDTO> call = rest.service.addUser(user);
         call.enqueue(new Callback<UserDTO>() {
+
             @Override
             public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+
+                loadingDialog.dismiss();
+
                 if (response.isSuccessful()) {
 
-                    Toast.makeText(context, "YOU IS REGISTER LAL", Toast.LENGTH_LONG).show();
-                    viewPager.setCurrentItem(0);
+                    new AlertDialog.Builder(context)
+                            .setTitle("Success")
+                            .setMessage("You are registered. You can now log in.")
+                            .setPositiveButton("AWESOME", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    viewPager.setCurrentItem(0);
+                                }
+                            })
+                            .setIcon(R.drawable.ic_success)
+                            .show();
 
                 } else {
-                    Toast.makeText(context, "Couldn't register. Please try again", Toast.LENGTH_LONG).show();
+                    new AlertDialog.Builder(context)
+                            .setTitle("An Error Occurred")
+                            .setMessage("We could not create your user. Please try again.")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Do nothing.
+                                }
+                            })
+                            .setIcon(R.drawable.ic_alert)
+                            .show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserDTO> call, Throwable t) {
-                Toast.makeText(context, "Error connecting to server.", Toast.LENGTH_LONG).show();
+                new AlertDialog.Builder(context)
+                        .setTitle("An Error Occurred")
+                        .setMessage("We could not connect to the server. Please try again.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Do nothing.
+                            }
+                        })
+                        .setIcon(R.drawable.ic_alert)
+                        .show();
             }
+
         });
     }
+
+    else
+
+    {
+        loadingDialog.dismiss();
+    }
+
+}
 
     @Override
     public void switchPage(int page) {
