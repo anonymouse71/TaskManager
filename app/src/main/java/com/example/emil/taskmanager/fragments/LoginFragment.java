@@ -70,9 +70,9 @@ public class LoginFragment extends Fragment {
 
         View view =  inflater.inflate(R.layout.fragment_login, container, false);
 
-        final EditText username = (EditText)view.findViewById(R.id.Login_Username);
+        final EditText username = (EditText)view.findViewById(R.id.login_activity_username);
 
-        final EditText password = (EditText)view.findViewById(R.id.Login_Password);
+        final EditText password = (EditText)view.findViewById(R.id.login_activity_password);
 
         Button loginBtn = (Button) view.findViewById(R.id.login_activity_login_button);
         loginBtn.setOnClickListener(new View.OnClickListener() {

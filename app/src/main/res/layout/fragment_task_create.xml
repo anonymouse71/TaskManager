@@ -78,7 +78,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
             android:onClick="saveClicked"
-            android:text="Create task"
+            android:text="save task"
             android:textAllCaps="true"
             android:textColor="@color/colorLight"
             android:background="@drawable/btn_primary"/>
