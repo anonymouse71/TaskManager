@@ -1,24 +1,19 @@
 package com.example.emil.taskmanager.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.adapters.StartPagePagerAdapter;
-import com.example.emil.taskmanager.api.RestTask;
+import com.example.emil.taskmanager.api.RestClient;
 import com.example.emil.taskmanager.dto.UserDTO;
-import com.example.emil.taskmanager.entities.User;
 import com.example.emil.taskmanager.listeners.IStartScreenListener;
-import com.example.emil.taskmanager.service.SynchronizerAsyncTask;
 import com.example.emil.taskmanager.utils.UserSettings;
 
 import retrofit2.Call;
@@ -69,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
         final Activity context = this;
 
         UserDTO user = new UserDTO(username, password);
-        RestTask rest = new RestTask();
+        RestClient rest = new RestClient();
         Call<UserDTO> call = rest.service.checkUser(user);
         call.enqueue(new Callback<UserDTO>() {
             @Override
@@ -98,7 +93,7 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
         final Activity context = this;
 
         UserDTO user = new UserDTO(username, password);
-        RestTask rest = new RestTask();
+        RestClient rest = new RestClient();
         Call<UserDTO> call = rest.service.addUser(user);
         call.enqueue(new Callback<UserDTO>() {
             @Override

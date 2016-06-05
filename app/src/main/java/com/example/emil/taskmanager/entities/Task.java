@@ -14,6 +14,7 @@ public class Task extends SugarRecord implements Serializable {
     private String description;
     private TaskPriority priority;
     private String apiId;
+    private boolean completed;
 
     @Ignore
     private boolean menuOpen;
@@ -25,11 +26,12 @@ public class Task extends SugarRecord implements Serializable {
         this.priority = priority;
     }
 
-    public Task(String title, String description, TaskPriority priority, String apiId) {
+    public Task(String title, String description, TaskPriority priority, String apiId, boolean completed) {
         this.title = title;
         this.description = description;
         this.priority = priority;
         this.apiId = apiId;
+        this.completed = completed;
     }
 
     public Task() {
@@ -81,5 +83,13 @@ public class Task extends SugarRecord implements Serializable {
 
     public void setApiId(String apiId) {
         this.apiId = apiId;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }

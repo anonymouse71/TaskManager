@@ -13,4 +13,5 @@ public interface ITaskViewListener {
 
     void DeleteTask(Task task);
 
+    void CompleteTask(Task task);
 }

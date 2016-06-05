@@ -1,5 +1,6 @@
 package com.example.emil.taskmanager.api;
 
+import com.example.emil.taskmanager.dto.TaskCompleteDTO;
 import com.example.emil.taskmanager.dto.TaskDTO;
 import com.example.emil.taskmanager.dto.UserDTO;
 
@@ -42,6 +43,15 @@ public interface RestInterface {
      */
     @PUT("tasks/{id}")
     Call<TaskDTO> editTask(@Path("id") String id, @Body TaskDTO task);
+
+    /**
+     * Edits a task completed in the database.
+     * @param id The ID of the task.
+     * @param task The updated task.
+     * @return TaskDTO.
+     */
+    @PUT("tasks/{id}")
+    Call<TaskDTO> editTaskCompleted(@Path("id") String id, @Body TaskCompleteDTO task);
 
     /**
      * Saves a task in the database.

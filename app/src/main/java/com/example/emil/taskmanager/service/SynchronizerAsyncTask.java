@@ -9,7 +9,7 @@ import android.os.AsyncTask;
 import com.example.emil.taskmanager.broadcastReceivers.AlarmReceiver;
 import com.example.emil.taskmanager.entities.TaskPriority;
 import com.example.emil.taskmanager.entities.TriggerType;
-import com.example.emil.taskmanager.api.RestTask;
+import com.example.emil.taskmanager.api.RestClient;
 import com.example.emil.taskmanager.dto.AlarmTriggerDTO;
 import com.example.emil.taskmanager.dto.TaskDTO;
 import com.example.emil.taskmanager.entities.AlarmTrigger;
@@ -46,7 +46,7 @@ public class SynchronizerAsyncTask extends AsyncTask<Void,Void,Void> {
     protected Void doInBackground(Void... params) {
 
         //Get all tasks from service
-        RestTask rest = new RestTask();
+        RestClient rest = new RestClient();
         List<TaskDTO> taskList = rest.getTasksById(UserSettings.userId);
 
         //Delete local data
@@ -56,7 +56,7 @@ public class SynchronizerAsyncTask extends AsyncTask<Void,Void,Void> {
         //Save data from service in DB and setup alarms if any
         for (TaskDTO taskDTO : taskList){
 
-            Task task = new Task(taskDTO.getTitle(),taskDTO.getDescription(), TaskPriority.values()[taskDTO.getPriority()],taskDTO.get_id());
+            Task task = new Task(taskDTO.getTitle(),taskDTO.getDescription(), TaskPriority.values()[taskDTO.getPriority()],taskDTO.get_id(), completed);
             Task.save(task);
             for (AlarmTriggerDTO alarmTriggerDTO : taskDTO.getTriggers()){
 

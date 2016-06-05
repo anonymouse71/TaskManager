@@ -83,8 +83,25 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
             }
         });
 
+        ImageButton deleteBtn = (ImageButton) convertView.findViewById(R.id.Task_Delete_Btn);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                taskView.DeleteTask(task);
+            }
+        });
+
+        ImageButton btnComplete = (ImageButton) convertView.findViewById(R.id.Task_Complete_Btn);
+        btnComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                taskView.CompleteTask(task);
+            }
+        });
+
         final RelativeLayout fragmentOverlay = (RelativeLayout) convertView.findViewById(R.id.Fragment_Overlay);
 
+        //Reset animation
         fragmentOverlay.animate()
                 .translationX(0)
                 .setDuration(0)
@@ -94,24 +111,16 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         fragmentOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (task.isMenuOpen()){
+                if (task.isMenuOpen()) {
                     AnimationUtil.swipeOpen(fragmentOverlay, context, 0);
                     task.setMenuOpen(false);
-                }else {
+                } else {
                     taskView.ViewDetails(task);
                 }
             }
         });
 
         fragmentOverlay.setOnTouchListener(handleTouch(task));
-
-        ImageButton deleteBtn = (ImageButton) convertView.findViewById(R.id.Task_Delete_Btn);
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                taskView.DeleteTask(task);
-            }
-        });
 
 
 
@@ -135,7 +144,7 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
                         float deltaX = x2 - x1;
 
                         RelativeLayout fragmentOverlay = (RelativeLayout) v.findViewById(R.id.Fragment_Overlay);
-                        if (DetermineSwipeDirection(deltaX, fragmentOverlay,task))
+                        if (DetermineSwipeDirection(deltaX, fragmentOverlay, task))
                             return true;
                         break;
                 }
@@ -164,9 +173,9 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
     private String getShortDescription(String text) {
         if (text.length() >= 30) {
             if (text.charAt(28) == ' ') {
-                return text.substring(0,28) + "...";
+                return text.substring(0, 28) + "...";
             } else {
-                return text.substring(0,29) + "...";
+                return text.substring(0, 29) + "...";
             }
         } else {
             return text;
@@ -176,9 +185,9 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
     private String getShortTitle(String text) {
         if (text.length() >= 35) {
             if (text.charAt(33) == ' ') {
-                return text.substring(0,33) + "...";
+                return text.substring(0, 33) + "...";
             } else {
-                return text.substring(0,34) + "...";
+                return text.substring(0, 34) + "...";
             }
         } else {
             return text;

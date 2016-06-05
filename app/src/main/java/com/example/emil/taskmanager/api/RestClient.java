@@ -10,11 +10,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RestTask {
+public class RestClient {
 
     public RestInterface service;
 
-    public RestTask() {
+    public RestClient() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://tranquil-reef-74302.herokuapp.com/api/")
                 .addConverterFactory(GsonConverterFactory.create())

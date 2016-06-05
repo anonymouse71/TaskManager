@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.emil.taskmanager.broadcastReceivers.AlarmReceiver;
 import com.example.emil.taskmanager.fragments.DateTriggerFragment;
-import com.example.emil.taskmanager.api.RestTask;
+import com.example.emil.taskmanager.api.RestClient;
 import com.example.emil.taskmanager.dto.AlarmTriggerDTO;
 import com.example.emil.taskmanager.dto.TaskDTO;
 import com.example.emil.taskmanager.fragments.AlarmTriggerFragment;
@@ -208,7 +208,7 @@ public class CreateTaskActivity extends AppCompatActivity implements ICreateTask
                 tempTask.getApiId()
         );
 
-        RestTask rest = new RestTask();
+        RestClient rest = new RestClient();
 
         if (currentTask.getTitle() == null) {
 

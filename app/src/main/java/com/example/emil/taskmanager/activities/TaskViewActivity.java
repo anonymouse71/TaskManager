@@ -11,8 +11,11 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.emil.taskmanager.api.RestTask;
+import com.example.emil.taskmanager.api.RestClient;
+import com.example.emil.taskmanager.dto.AlarmTriggerDTO;
+import com.example.emil.taskmanager.dto.TaskCompleteDTO;
 import com.example.emil.taskmanager.dto.TaskDTO;
+import com.example.emil.taskmanager.entities.AlarmTrigger;
 import com.example.emil.taskmanager.entities.Task;
 import com.example.emil.taskmanager.R;
 import com.example.emil.taskmanager.adapters.TaskListAdapter;
@@ -21,8 +24,13 @@ import com.example.emil.taskmanager.service.SynchronizerAsyncTask;
 import com.example.emil.taskmanager.utils.UserSettings;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -132,7 +140,7 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
 
         final Context context = this;
 
-        RestTask rest = new RestTask();
+        RestClient rest = new RestClient();
         Call<TaskDTO> call = rest.service.deleteTask(task.getApiId());
         call.enqueue(new Callback<TaskDTO>() {
             @Override
@@ -151,6 +159,32 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
 
         tasks.remove(task);
         listAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void CompleteTask(Task task) {
+
+        final Context context = this;
+
+        final TaskCompleteDTO taskDTO = new TaskCompleteDTO(
+                task.isCompleted()
+        );
+
+        RestClient rest = new RestClient();
+        Call<TaskDTO> call = rest.service.editTaskCompleted(task.getApiId(), taskDTO);
+        call.enqueue(new Callback<TaskDTO>() {
+            @Override
+            public void onResponse(Call<TaskDTO> call, Response<TaskDTO> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(context, "Task Updated", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TaskDTO> call, Throwable t) {
+                Toast.makeText(context, "Error connecting to server.", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**
