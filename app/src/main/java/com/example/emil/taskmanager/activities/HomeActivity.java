@@ -95,6 +95,29 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
     @Override
     public void registerPressed(String username, String password) {
 
+        final Activity context = this;
+
+        UserDTO user = new UserDTO(username, password);
+        RestTask rest = new RestTask();
+        Call<UserDTO> call = rest.service.addUser(user);
+        call.enqueue(new Callback<UserDTO>() {
+            @Override
+            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                if (response.isSuccessful()) {
+
+                    Toast.makeText(context, "YOU IS REGISTER LAL", Toast.LENGTH_LONG).show();
+                    viewPager.setCurrentItem(0);
+
+                } else {
+                    Toast.makeText(context, "Couldn't register. Please try again", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserDTO> call, Throwable t) {
+                Toast.makeText(context, "Error connecting to server.", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
