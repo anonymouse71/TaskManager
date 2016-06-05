@@ -113,7 +113,7 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
                 taskView.CompleteTask(task);
             }
         });
-        
+
         if (task.isCompleted()){
             completedOverlay.setVisibility(View.VISIBLE);
             btnComplete.setImageResource(R.drawable.ic_undo);
@@ -133,7 +133,6 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
                 .setDuration(0)
                 .start();
 
-
         fragmentOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,9 +146,6 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         });
 
         fragmentOverlay.setOnTouchListener(handleTouch(task));
-
-
-
 
         return convertView;
     }

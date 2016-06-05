@@ -1,5 +1,6 @@
 package com.example.emil.taskmanager.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
     private TaskListAdapter listAdapter;
     private ListView listView;
     private List<Task> tasks;
+    private ProgressDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,10 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
         setContentView(R.layout.activity_task_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        loadingDialog = new ProgressDialog(this);
+        loadingDialog.setMessage("Syncing");
+        loadingDialog.setCancelable(false);
 
         listView = (ListView) findViewById(R.id.listView);
 
@@ -57,11 +63,12 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
 
         //If we have not sync the current user
         if (!UserSettings.hasSynchronized) {
-            SynchronizerAsyncTask asyncTask = new SynchronizerAsyncTask(this,this);
+            loadingDialog.show();
+            SynchronizerAsyncTask asyncTask = new SynchronizerAsyncTask(this, this);
             asyncTask.execute();
 
             UserSettings.hasSynchronized = true;
-        }else {
+        } else {
             if (tasks == null) {
                 tasks = Task.listAll(Task.class);
             }
@@ -214,6 +221,14 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
             startActivity(intent);
         }
 
+        if (id == R.id.action_refresh_data) {
+            loadingDialog.show();
+
+            SynchronizerAsyncTask asyncTask = new SynchronizerAsyncTask(this, this);
+
+            asyncTask.execute();
+        }
+
         if (id == R.id.action_sort_tasks_alpha) {
             SortAlphabetically(this.listView);
         }
@@ -232,9 +247,9 @@ public class TaskViewActivity extends AppCompatActivity implements ITaskViewList
 
     @Override
     public void syncComplete() {
-        if (tasks == null) {
-            tasks = Task.listAll(Task.class);
-        }
+        loadingDialog.dismiss();
+
+        tasks = Task.listAll(Task.class);
 
         final TaskListAdapter adapter = new TaskListAdapter(this, R.layout.fragment_task, tasks);
 
