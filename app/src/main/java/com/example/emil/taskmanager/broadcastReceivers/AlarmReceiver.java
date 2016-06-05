@@ -1,4 +1,4 @@
-package com.example.emil.taskmanager.activities;
+package com.example.emil.taskmanager.broadcastReceivers;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,6 +9,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
 import com.example.emil.taskmanager.R;
+import com.example.emil.taskmanager.activities.TaskDetailsActivity;
+import com.example.emil.taskmanager.activities.TaskViewActivity;
 
 /**
  * Created by Administrator on 5/23/2016.

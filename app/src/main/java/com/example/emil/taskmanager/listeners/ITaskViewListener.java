@@ -1,7 +1,6 @@
 package com.example.emil.taskmanager.listeners;
 
 import com.example.emil.taskmanager.entities.Task;
-import com.example.emil.taskmanager.fragments.IListFragment;
 
 /**
  * Created by Administrator on 5/11/2016.

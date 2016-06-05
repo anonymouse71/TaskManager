@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 
-import com.example.emil.taskmanager.activities.AlarmReceiver;
+import com.example.emil.taskmanager.broadcastReceivers.AlarmReceiver;
 import com.example.emil.taskmanager.entities.TaskPriority;
 import com.example.emil.taskmanager.entities.TriggerType;
 import com.example.emil.taskmanager.api.RestTask;

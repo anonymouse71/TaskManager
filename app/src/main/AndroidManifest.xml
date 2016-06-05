@@ -60,7 +60,7 @@
             android:label="Details"
             android:parentActivityName=".activities.TaskViewActivity" />
 
-        <receiver android:name=".activities.AlarmReceiver"></receiver>
+        <receiver android:name=".broadcastReceivers.AlarmReceiver"></receiver>
 
     </application>
 
