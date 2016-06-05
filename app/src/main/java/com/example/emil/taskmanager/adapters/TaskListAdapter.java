@@ -77,7 +77,7 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         FrameLayout priorityBar = (FrameLayout) convertView.findViewById(R.id.Task_Priority_Indicator);
         priorityBar.setBackgroundColor(PriorityColors.getColor(task.getPriority()));
 
-        ImageButton btnEdit = (ImageButton) convertView.findViewById(R.id.Task_Edit_Btn);
+        final ImageButton btnEdit = (ImageButton) convertView.findViewById(R.id.Task_Edit_Btn);
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,10 +102,12 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
                 if (task.isCompleted()){
                     completedOverlay.setVisibility(View.VISIBLE);
                     btnComplete.setImageResource(R.drawable.ic_undo);
+                    btnEdit.setEnabled(false);
                 }
                 else{
                     completedOverlay.setVisibility(View.INVISIBLE);
                     btnComplete.setImageResource(R.drawable.ic_check);
+                    btnEdit.setEnabled(true);
                 }
 
                 taskView.CompleteTask(task);
@@ -115,10 +117,12 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         if (task.isCompleted()){
             completedOverlay.setVisibility(View.VISIBLE);
             btnComplete.setImageResource(R.drawable.ic_undo);
+            btnEdit.setEnabled(false);
         }
         else{
             completedOverlay.setVisibility(View.INVISIBLE);
             btnComplete.setImageResource(R.drawable.ic_check);
+            btnEdit.setEnabled(true);
         }
 
         final RelativeLayout fragmentOverlay = (RelativeLayout) convertView.findViewById(R.id.Fragment_Overlay);
