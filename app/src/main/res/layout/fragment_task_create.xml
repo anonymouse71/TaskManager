@@ -32,7 +32,8 @@
             android:id="@+id/CreateTask_Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:inputType="text"/>
 
         <TextView
             android:id="@+id/textView2"
@@ -50,7 +51,8 @@
             android:id="@+id/CreateTask_Description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:inputType="text"/>
 
         <TextView
             android:id="@+id/textView5"
