@@ -36,6 +36,9 @@ public class SynchronizerAsyncTask extends AsyncTask<Void,Void,Void> {
     private Context context;
     private AlarmManager alarmManager;
 
+    public SynchronizerAsyncTask() {
+    }
+
     public SynchronizerAsyncTask(OnSyncComplete listener, Context context) {
         this.listener = listener;
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
