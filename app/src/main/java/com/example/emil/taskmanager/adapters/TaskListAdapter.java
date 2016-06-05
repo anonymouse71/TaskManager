@@ -64,6 +64,8 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         }
 
 
+        final RelativeLayout completedOverlay = (RelativeLayout) convertView.findViewById(R.id.Task_completed_overlay);
+
         // Set title text
         TextView titleText = (TextView) convertView.findViewById(R.id.Task_Title);
         titleText.setText(getShortTitle(task.getTitle()).toUpperCase());
@@ -91,13 +93,33 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
             }
         });
 
-        ImageButton btnComplete = (ImageButton) convertView.findViewById(R.id.Task_Complete_Btn);
+        final ImageButton btnComplete = (ImageButton) convertView.findViewById(R.id.Task_Complete_Btn);
         btnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                task.setCompleted(!task.isCompleted());
+
+                if (task.isCompleted()){
+                    completedOverlay.setVisibility(View.VISIBLE);
+                    btnComplete.setImageResource(R.drawable.ic_undo);
+                }
+                else{
+                    completedOverlay.setVisibility(View.INVISIBLE);
+                    btnComplete.setImageResource(R.drawable.ic_check);
+                }
+
                 taskView.CompleteTask(task);
             }
         });
+        
+        if (task.isCompleted()){
+            completedOverlay.setVisibility(View.VISIBLE);
+            btnComplete.setImageResource(R.drawable.ic_undo);
+        }
+        else{
+            completedOverlay.setVisibility(View.INVISIBLE);
+            btnComplete.setImageResource(R.drawable.ic_check);
+        }
 
         final RelativeLayout fragmentOverlay = (RelativeLayout) convertView.findViewById(R.id.Fragment_Overlay);
 

@@ -132,4 +132,14 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#c8e4e4e4"
+        android:visibility="visible"
+        android:id="@+id/Task_completed_overlay">
+    </RelativeLayout>
+
 </FrameLayout>

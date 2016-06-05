@@ -140,6 +140,8 @@ public class HomeActivity extends AppCompatActivity implements IStartScreenListe
 
                 @Override
                 public void onFailure(Call<UserDTO> call, Throwable t) {
+                    loadingDialog.dismiss();
+
                     new AlertDialog.Builder(context)
                             .setTitle("Login failed")
                             .setMessage("Your username or password is incorrect.")
